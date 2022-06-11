@@ -1,0 +1,30 @@
+import java.util.* ;
+import java.io.*; 
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class Solution 
+{
+	public static ArrayList<Integer> nextPermutation(ArrayList<Integer> permutation) 
+	{
+        int n = permutation.size();
+        if(n<=1) return permutation;
+        int i = n-2; // starting from 2nd last index
+        while(i>=0 && permutation.get(i) >= permutation.get(i+1)) i--;
+        
+        if(i>=0){
+            int j=n-1; // starting from last index
+            while(permutation.get(j) <= permutation.get(i)) j--;
+            Collections.swap(permutation, i , j);
+        }
+        //reverse
+        reverse(permutation , i+1 , n-1);
+       
+       return permutation;
+	}
+    public static void reverse(ArrayList<Integer> arr , int s , int e){
+        while(s<e){
+            Collections.swap(arr, s++, e--);
+        }
+    }
+}
