@@ -1,0 +1,68 @@
+//Approach 1- Do a linear search. TC= O(N x M)
+
+//Approach 2- Traverse each row one by one and perform binary seearch in each row
+// TC = O(N logM) where N=no of rows, M=no of columns
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int r = matrix.length , c = matrix[0].length;
+        
+        for(int i = 0; i<r ; i++){
+            // In every row perform a binary search
+            int lo = 0, hi = c-1;
+            
+            while(lo<=hi){
+                int mid = (lo + (hi-lo)/2);
+                if(matrix[i][mid] == target) return true;
+                else if(matrix[i][mid] < target){
+                    lo = mid+1;
+                }
+                else{
+                    hi = mid-1;
+                }
+                    
+            }
+        }
+        return false;
+    }
+}
+
+
+//Approach 3 - (For row-wise + column-wise sorted matrix)
+//Here we traverse from backside of 1st row. If we find element<target, move down. Else If element> target, move left
+// TC = O(N + M), bcz either we move down or left at every step.
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {        
+        int row = matrix.length , col= matrix[0].length;        
+        int i=0, j =col-1;
+        while(i<row && j>=0){
+            if(matrix[i][j] == target) return true;
+            
+            else if(matrix[i][j] < target) i++; //move down
+            
+            else j--; // move left
+        }
+        return false;
+    }
+}
+
+//Approach 4 - Most OPtimal
+//Perform Binary Search on entire matrix , since its entirely sorted.
+// TC = O(log n*m) , SC= O(1)
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int r= matrix.length;
+        int c = matrix[0].length;        
+        int lo=0,  hi= (r*c) - 1;        
+        while(lo<=hi) {
+            int mid = lo + (hi-lo)/2;
+            if( matrix[mid/c][mid%c] == target) return true;
+            else if ( matrix[mid/c][mid%c] < target){
+                lo = mid+1; //search in right half
+            }
+            else{
+                hi = mid-1; // search in left half
+            }
+        }
+        return false;
+    }
+}
