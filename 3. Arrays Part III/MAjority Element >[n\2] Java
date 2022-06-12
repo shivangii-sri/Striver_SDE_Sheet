@@ -1,0 +1,53 @@
+//Approach 3- Moore's Voting Algo -Most Optimal
+// Basically we pick an element, say that you are a majority element. We keep Incr its count& whenever we find some other element, we decr count by one. Ultimately..
+// .. value in the element lastly stored is our majority element. 
+// TC=O(N) , SC= O(1)
+class Solution {
+    public int majorityElement(int[] nums) {
+        int count=0;
+        int ele=0; //element        
+        for(int i=0; i<nums.length ; i++){
+            if(count == 0){
+                ele = nums[i];
+                count++;
+            }
+            else if(nums[i] == ele){
+                count++;
+            }
+            else{
+                count--;
+            }
+        }
+        return ele;
+    }
+}
+
+// Approach 2 - HashMap (Key-Value Pair)
+// TC = O(N*logN) , SC = O(N) for map
+public class Solution {
+	public static int findMajority(int[] arr, int n) {
+         HashMap<Integer,Integer>hm=new HashMap<>();
+        // Step 1 -  Travel in array and store key-value pair as key->Freq in hashmap
+         for(int val:arr){
+            if(hm.containsKey(val)){
+                int freq=hm.get(val);
+                freq++;
+                hm.put(val,freq);
+            }
+            else{
+                hm.put(val,1);
+            }
+        }
+        // Step2 -After updating map, travel in the map and check if any key has count > n/2
+        for(Integer i:hm.keySet()){
+            if(hm.get(i)  > (n/2)){
+                return i;
+            }
+        }
+        // if no element found, return -1
+        return -1;
+	}
+}
+
+// Approach 1 Brute- Pick one element, and count the no. of occurences of that element in the array
+// TC = O(n^2) , SC = O(1)
