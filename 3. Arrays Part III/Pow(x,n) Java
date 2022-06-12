@@ -1,0 +1,33 @@
+// Approach 2 - Most optimal
+// 2^10 ==>   (2 x 2)^ 5 = 4^5  ==> 4 x (4^ 4)  ==> (2 x 2)^2 = 4^2  ==> (4 x 4)^1
+// if(n%2 == 0) even power { n /= 2; x*=x} 
+// if(n%2 == 1) odd power {n-- ; ans = ans *x}
+// TC = O(logN)        
+
+class Solution {
+    public double myPow(double x, int n) {
+        double ans = 1.0;      
+        long nn = n;
+        if(nn < 0) {
+            nn = nn * -1;
+        }        
+        while(nn > 0){
+            if(nn%2 == 0){ // even power
+                nn /= 2;
+                x = x*x;
+            }
+            else if(nn%2 == 1) {//odd power
+                nn = nn - 1;
+                ans = ans * x;
+            }
+        }
+        if(n < 0){
+            ans  = 1.0 / ans; // can aslo write ans = (double)1.0/(double)ans; removing double here bcx 1.0 is by default double in Java, 1.0f is float, ans is double
+        }
+        return ans;
+    }
+}
+
+
+// Approach 1 Brute- Run a for loop from 1 to n, do ans = ans * x; where ans=1 initially
+// TC = O(N)
