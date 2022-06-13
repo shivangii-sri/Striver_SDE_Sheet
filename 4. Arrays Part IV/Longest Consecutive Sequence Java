@@ -1,0 +1,36 @@
+// Most Optimal  - HashSet
+//1. Linearly iterate in the array and push each element in the hashSet
+//2. Again iterate linearly and check if (element-1) is present in set or not.
+//3. If present, simply move to the next element in the array. bcz we want to find the least no. to start counting streak from.
+//4. If not, i.e its least. So check if (element+1) is present in HashSet or not and keep on incr count of streak.
+// TC = O(N)(to push) + O(N)(2nd linear traversal) + O(N)(for streak)
+// SC = O(N) for Hashset
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        Set<Integer> hs = new HashSet<Integer>();
+        //1. push elements into Hashset
+        for(int e : nums){
+            hs.add(e);
+        }
+        // Travel again and check if (element-1) is present in set or not
+        // If not, start counting streak from this no., bcz this is least no.
+        int maxi = 0;
+        for(int i=0; i<nums.length ; i++){
+            if(hs.contains(nums[i]-1) == false){
+                int currentNum = nums[i];
+                int currentStreak = 1;
+                
+                while(hs.contains(currentNum+1)){
+                    currentStreak++;
+                    currentNum = currentNum+1;
+                }
+                maxi = Math.max(maxi, currentStreak);
+            }
+        }
+        return maxi;
+    }
+ }
+
+
+// Brute Method- 1. Sort the array 2. Iterate in array to find max length of consecutive numbers.
+// TC = O(NlogN) + O(N) , SC=O(N) if sort using merge sort
