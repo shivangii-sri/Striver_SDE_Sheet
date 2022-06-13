@@ -1,0 +1,29 @@
+// Optimal=HashSet -> Most Optimal=HashMap
+// 1. Traverse linearly into string. Take two ptrs left=0, right=0
+// 2. if char at index 'right' is already present in the Map, jump the left pointer to char's index+1 , so that now we have a subarray with no repeating characters
+// 3. Update index of current char at 'r'
+// 4. Update maxLength if curr length > maxLength
+// 5. r++ (move 'r' to next char)
+// TC=O(N) , SC=O(N) for hashMap
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        HashMap<Character , Integer> mp = new HashMap<>(); // stores 'character-index' pair        
+        int left=0,r=0; // left and right ptrs
+        int maxLength = 0;
+        
+        while(r < s.length()){
+            if(mp.containsKey(s.charAt(r)) && mp.get(s.charAt(r)) >= left ){ // if map already contains character && its index its within range Left-to-right, update left
+                left = mp.get(s.charAt(r)) + 1; // left = get the index of this character +1, to make subarray with no repeating characters
+            }
+            mp.put(s.charAt(r) , r); //push current charcater-index into map
+            maxLength = Math.max(maxLength , r-left+1); // find curr length and update maxLength
+            r++; // move right ptr
+        }
+        return maxLength;
+    }
+}
+ 
+ 
+// Brute Force - Generate all subarrays of string and return the longest substring without repeat. Use a Set to check for repeating characters
+// TC = O(N^2) , SC = O(N)
