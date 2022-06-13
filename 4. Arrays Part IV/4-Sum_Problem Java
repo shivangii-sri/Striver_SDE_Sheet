@@ -1,0 +1,52 @@
+// . Most Optimal - (Sort -> 4 Pointer i,j,left,right -> Store unique quads in DS)
+// TC = O(NlogN) + O(N^3)  , SC=O(1)
+//1. Sort the array 
+//2. Take 4 pointers i=0, j=i+1, left=j+1, right=n-1 .Find if a[left]+a[right] == target - (a[i]+a[j]). We are always skipping dupicates, so no chnace of duplicate quads.
+
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        int n = nums.length;
+        if(nums == null || n<=3) return res;        
+        //1 Sort the array
+        Arrays.sort(nums);
+        // 4 ptrs and do binary search
+        for(int i=0; i<n; i++){            
+            for(int j=i+1 ; j<n; j++){
+                int left = j+1;
+                int right = n-1;
+                int curSum = nums[i]+nums[j];
+                int targetSum = target - curSum;
+                
+                while(left<right){
+                    int two_sum = nums[left] + nums[right];
+                    if(two_sum < targetSum){
+                        left++;
+                    }
+                    else if(two_sum > targetSum){
+                        right--;
+                    }
+                    else{
+                        List<Integer> quad = new ArrayList<Integer>();
+                        quad.add(nums[i]);
+                        quad.add(nums[j]);
+                        quad.add(nums[left]);
+                        quad.add(nums[right]);
+                        res.add(list);
+                        //Move left and right
+                        while(left<right && nums[left] == quad.get(2)) left++;
+                        while(left<right && nums[right] == quad.get(3)) right--;
+                    }
+                }//while close
+                while(j+1 < n && nums[j+1] == nums[j]) j++;
+            }// close j loop
+            while(i+1< n && nums[i+1] == nums[i]) i++;
+        }
+        return res;
+    }
+}
+
+
+// Approach 1 - Brute
+// Sort -> 3 pointers i=0,j=i+1,k=j+1 -> B.Search on right half to find target-(a[i]+a[j]+a[k]). Use a set to get unique quads
+// TC = O(NlogN) (Sorting)+ O(N^3 * logN) , SC=O(1)
