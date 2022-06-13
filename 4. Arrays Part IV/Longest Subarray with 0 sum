@@ -1,0 +1,36 @@
+// Most Optimal- HashMap. Linearly traverse in the array, keeping a track of the prefixSum. We make 3 checks :-
+//1. is prefixSum==0, update maxLength = entire subarray length i.e (i+1)
+//2. if map contains prefixSum already? then there is a subarray going to give you sum as 0. Update maxi by comparing length of maxi and subarray 
+//3. otherwise, put (prefixSum, index) into hashMap
+// TC = O(N * logN) , SC = O(N)
+
+class GfG
+{
+    int maxLen(int arr[], int n)
+    {
+        HashMap<Integer,Integer> mp = new HashMap<>();
+        int prefixSum = 0;
+        int maxi = 0; // max length of subarray having sum zero
+        
+        for(int i=0; i<n ; i++){
+            prefixSum+= arr[i];
+            //1. is prefixSum==0, update maxLength = (i+1)
+            if(prefixSum == 0){
+                maxi = i+1;
+            }
+            else{
+                if(mp.containsKey(prefixSum)){
+                    maxi = Math.max(maxi , i-mp.get(prefixSum));
+                }
+                else{
+                    mp.put(prefixSum , i);
+                }
+            }
+            
+        }
+        return maxi;
+    }
+}
+
+// Brute Force- Generate all subarrays, for(i=0 to n){for(j=i to n)} find the longest subarray length which has sum = 0 
+// TC = O(N^2) , SC= O(1)
