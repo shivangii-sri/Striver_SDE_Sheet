@@ -1,0 +1,34 @@
+// Most Optimal - Using HashMap to store(prefix-xor, its frequency)
+//1. Linearly traverse in the array, calculate prefix xor. If xor==K, count++
+//2. does map contain Y , (Y = XOR ^ K) , then count+= count of Y
+//3. Add current xor in the map, if value is new , add(xor,1). If xor exists, add(xor, freq+1)
+// TC = O(N logN) SC=O(N) for Map
+import java.util.* ;
+import java.io.*; 
+import java.util.ArrayList;
+
+public class Solution {
+	public static int subarraysXor(ArrayList<Integer> arr, int x) {
+        HashMap<Integer , Integer> mp = new HashMap<>();
+        int xor = 0; //prefix xor
+        int count = 0;
+        
+        for(int i=0; i<arr.size() ; i++){
+            xor = xor^arr.get(i);
+            //1. Check if xor==k
+            if(xor == x) count++;
+            //2. Find Y is present in the map, to count for subarrays in middle
+            int y = xor^x;
+            if(mp.containsKey(y) == true){
+                count += mp.get(y);
+            }
+            //3. Add current prefixXor to map
+            if(mp.containsKey(xor)==true ) mp.put(xor, mp.get(xor)+1);
+            else mp.put(xor, 1);
+        }
+        return count;
+	}
+}
+
+// Brute - Generate all subarrays, count how many give xor = k
+// TC = O(N^2) , SC=O(1)
