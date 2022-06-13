@@ -1,0 +1,41 @@
+// Approach 2- HashMap - Most Optimal
+// Make a hashMap to store element-index pair. Traverse in the array and check if target-a[i] is present in map or not. if yes return index value from map and current index.
+// If not present in map, simply add element-index pair in map.
+// TC = O(N) , SC = O(1)
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int[] res = new int[2];        
+        Map<Integer, Integer> mp = new HashMap<>();
+        for(int i=0; i<nums.length ; i++){
+            if(mp.containsKey(target-nums[i])){
+                res[1] = i;
+                res[0] = mp.get(target-nums[i]);
+                return res;
+            }
+            else{
+                mp.put(nums[i] , i);
+            }
+        }
+        return res;      
+    }
+}
+
+
+//Approach 1 Brut -For every element, check its entire right side if target-arr[i] is present or not using j loop. If yes, return indices i,j 
+// TC = O(n^2) , SC= O(1)
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+         int[] ans = new int[2];
+        
+         for(int i=0 ; i<nums.length-1 ; i++){
+             for(int j=i+1 ; j<nums.length; j++) {
+                 if(nums[i] + nums[j] == target){
+                     ans[0] = i;
+                     ans[1] = j;
+                 }
+             }
+         }
+        return ans;
+  }
+}
