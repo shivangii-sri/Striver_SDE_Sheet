@@ -32,3 +32,36 @@ class Solution {
 }
 
 // Brute - TC=O(N1 + N2) , SC=O(N1 + N2)
+class Solution {
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode res = new ListNode(); // to return res.next as answer
+        ListNode dd = res; // to move dd through our ans list
+        
+        // keep on moving dd and assign whichever is maller among L1 and L2
+        while(list1!= null && list2 != null){
+            if(list1.val <= list2.val){
+                dd.next = new ListNode(list1.val);
+                dd= dd.next;
+                list1 = list1.next;
+            }
+            else{
+                dd.next = new ListNode(list2.val);
+                dd= dd.next;
+                list2 = list2.next;
+                
+            }
+        }
+        // If any one of the lists reaches null ,taking care of the other list
+        while(list1 != null){
+            dd.next = new ListNode(list1.val);
+            dd= dd.next;
+            list1 = list1.next;            
+        }
+        while(list2 != null){
+            dd.next = new ListNode(list2.val);
+            dd= dd.next;
+            list2 = list2.next;        
+        }
+        return res.next;
+    }
+}
