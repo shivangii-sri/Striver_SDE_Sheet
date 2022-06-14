@@ -1,0 +1,22 @@
+// Most Optimal - Hair and Tortoise Method
+//1. Take 2 pointers: slow=head, fast=head. Move slow by 1, fast by 2 steps
+//3. Move until fast!=null or fast.next!=null. Eventually, slow = middle node
+// TC = O(N/2) , SC=O(1)
+
+class Solution {
+    public ListNode middleNode(ListNode head) {       
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast!=null && fast.next!=null){  //IMP: Donn't write    while(fast.next!=null && fast!=null) --> error for [1,2,3,4,5,6]
+            slow= slow.next;
+            fast = fast.next.next;
+        }            
+        return slow;      
+    }
+}
+
+
+// Brute - TC=O(N) + O(N/2) , SC=O(1)
+//1. Iterate the LL and find length.
+// For either odd or even length, find len = (n/2 + 1)
+// Lastly, again traverse to (n/2 + 1) and return middle node
