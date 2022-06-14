@@ -1,0 +1,31 @@
+// Most Optimal - 
+//1. Create carry=0, dummy node to return ans, temp node to iterate
+//2. Loop until l1!=null OR l2!=null OR carry !=0
+//3.   ==> sum = L1 + L2 + carry, make a new node with sum value, add it to your temp, move temp.
+//4. return dummy.next
+TC = O(max(n1 , n2)) , SC = O(N)
+
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        int carry=0;
+        ListNode dummy = new ListNode();
+        ListNode temp = dummy;
+        while(l1!=null || l2!=null || carry !=0 ){
+            int sum=0;
+            if(l1!=null){
+                sum+=l1.val;
+                l1 = l1.next;
+            }
+            if(l2!=null){
+                sum+=l2.val;
+                l2 = l2.next;
+            }
+            sum+=carry;
+            carry = sum/10;
+            ListNode node = new ListNode(sum%10);
+            temp.next= node;
+            temp = temp.next;
+        }
+        return dummy.next;
+    }
+}
