@@ -1,0 +1,34 @@
+// Most OPtimal - TC=O(N1 + N2) , SC = O(1)
+//1. Create two head L1=head1, L2=head2. Make sure L1 is always smaller value.
+//2. Point res to L1, to return the head of the merged list at the end.
+//3. Process is simple -Until L1 != null , Keep moving L1 until L1<=L2, and keep storing L1 node into temp node. Initially temp will be null.
+//4. After this, temp.next will point to L2. and SWAP L1,L2.
+// 5. Run all this unitl L1 && L2 are not null.
+// return res.
+
+class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {     
+        if(l1 == null) return l2;
+        if(l2 == null) return l1;
+        if(l1.val > l2.val){
+            ListNode temp = l1;
+            l1 = l2; 
+            l2 = temp;
+        }
+        ListNode res = l1;   
+        while(l1!=null && l2!= null) {  //&& is IMP
+            ListNode temp = null;
+            while(l1!=null && l1.val<=l2.val){  // <= is IMP
+                temp = l1;  
+                l1 = l1.next;   
+            }  
+            temp.next = l2;  
+            ListNode swapper = l1;  
+            l1 = l2;  
+            l2 = swapper;  
+        }
+        return res;  
+    }
+}
+
+// Brute - TC=O(N1 + N2) , SC=O(N1 + N2)
