@@ -1,0 +1,34 @@
+// Most optimal - Hair Tortoise Method
+//1. Take 2 pointers slow and fast, initially pointing to head
+//2. Move slow by 1 step, fast by 2 steps.
+//3. If they meet at a point, cycle present. Otherwise fast will reach null signifying no cycle present.
+// TC = O(N) , SC = O(1)
+
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+       if(head == null || head.next == null) return false;       
+        ListNode slow = head, fast = head;      
+        while(fast!=null && fast.next!=null) {  //NOTE - while(fast.next!=null && fast.next.next!=null ) will also work..
+            slow = slow.next;
+            fast = fast.next.next;
+            if(slow == fast) return true;
+        }
+        return false;
+    }
+}
+
+// Brute - Hashing -  TC = O(N), SC = O(N)
+//1. Iterate in the LL, keep on hashing each complete node in a HashSet.
+//2. If any node you find is already present in Set, return TRUE, cycle present. Else false
+
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        Set<ListNode> hs = new HashSet<ListNode>();        
+        while(head !=null){
+            if(hs.contains(head)) return true;
+            else hs.add(head);
+            head = head.next;
+        }
+        return false;
+    }
+}
