@@ -1,0 +1,60 @@
+// Most Optimal
+//1. make 2 pointers d1 and d2 as heads of both lists. Start moving them simlutaneously by one step.
+//2. If any reaches null , assign the opposite LL head into it.
+//3. Wherever d1, d2 collides is the point of intersection, even be it null.
+// TC = O(2N)  ,  SC= O(1)
+
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode a = headA;
+        ListNode b = headB;
+        
+        while(a!=b){
+            a = a==null? headB : a.next;
+            b = b==null? headA : b.next;
+        }
+        return a;
+    }
+}
+
+// Approach 2 - Hashing
+//1. Iterate in L1 and add or hash all the nodes in a HashSet.
+//2. Now iterate in L2 ,check if any node is already present in Set or not. If yes, thats your intersection point. Else return null
+// TC = O(N+M) , SC = O(N) for Set
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        Set<ListNode> set = new HashSet<>();       
+        //1.
+        while(headA!= null){
+            set.add(headA);
+            headA = headA.next;
+        }    
+        //2.
+        while(headB != null){
+            if(set.contains(headB)){
+                return headB;
+            }
+            headB = headB.next;
+        }
+        return null;
+    }
+}
+
+
+//Brute approach , TC = O(n x m) , SC = O(1)
+//For each element of L1, iterate in L2, and check if l1 node == l2 node. Else return null
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        // Iterate i L1
+        while(headA != null){
+            ListNode l2 = headB;
+            // Iterate in L2
+            while(l2!= null){
+                if(headA == l2) return headA;
+                else l2 = l2.next;
+            }
+            headA = headA.next;
+        }
+        return null; 
+    }
+}
