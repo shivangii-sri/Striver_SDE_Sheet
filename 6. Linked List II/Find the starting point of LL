@@ -1,0 +1,50 @@
+// Most Optimal - SLow-Fast Pointers (Hair Tortoise Method)
+//1. Take two pointers slow, fast pointing to head
+//2. Run while loop until (fast!=null && fast.next!=null)
+//3. If there is a cycle, slow and fast collides. From here, point slow to head, then move both slow and fast simultaneously by one step. Return slow.
+//4. Else if there is no cycle, fast reaches null and we return null.
+// TC= O(N), SC=O(1)
+
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+       if(head == null || head.next == null) return null;        
+        ListNode slow = head, fast = head;        
+        while(fast!=null && fast.next!=null){ // this condition works too  while(fast.next!=null && fast.next.next!=null) 
+            slow = slow.next;
+            fast = fast.next.next;
+            if(slow == fast){
+                slow = head;
+                while(slow != fast){
+                    slow = slow.next;
+                    fast = fast.next;
+                }
+                return slow;
+            }
+        }
+        return null; //return null here, not fast
+    }
+}
+
+
+
+// Brute - Use Hashing - TC =O(N) , SC = O(1)
+//1. Iterate in LL, keep on adding the nodes in the Set.
+//2. If Set already contains the node, cycle is present, this node is starting point. Otherwise return null if no cycle.
+
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        if(head==null || head.next==null) {
+            return null;
+        }
+        Set<ListNode> seenNodes = new HashSet<>();
+        ListNode curr=head;
+        while(curr !=null) {
+            if(seenNodes.contains(curr)){
+                return curr;
+            }
+            seenNodes.add(curr);
+            curr = curr.next;
+        }
+        return curr;
+    }
+}
