@@ -1,0 +1,62 @@
+//Most Optimal
+//1. Find the middle of LL by slow,fast such taht if fast reaches last or 2nd last node, slow reaches middle
+//2. Reverse the entire right half of the mid.
+//3. Move slow by one step.
+//4. Compare head and slow till slow reaches null to get palindrome or not.
+// TC = O() , SC = O(1)
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        if(head==null || head.next==null) return true;
+        ListNode slow=head , fast= head;
+        // Go to middle node
+        while(fast.next!=null && fast.next.next!=null){
+            slow=slow.next;
+            fast = fast.next.next;
+        }
+        // reverse right half
+        slow.next = reverse(slow.next);
+        // move slow to right half
+        slow = slow.next;
+        //match
+        while(slow!=null) {
+            if(slow.val !=head.val){
+                return false;
+            }
+            slow = slow.next;
+            head = head.next;
+        }
+        return true;
+    }    
+    public static ListNode reverse(ListNode head){
+        ListNode prev = null, next= null;
+        while(head!=null) {
+            next = head.next;
+            head.next=prev;
+            prev = head;
+            head= next;
+        }
+        return prev;
+    }
+}
+
+
+// Brute-Force - TC = O(2N), SC=O(N)
+// Use an array to store all elements of LL, then check if array is palindrome or not.
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        List<Integer> arr = new ArrayList<Integer>();      
+        ListNode cur = head;
+        while(cur !=null) {
+            arr.add(cur.val);
+            cur = cur.next;
+        }
+        // check if arr is palindrome or not
+        int s = 0, e = arr.size()-1;
+            while(s<e){
+                if(arr.get(s) != arr.get(e)) return false;
+                s++;
+                e--;
+           }
+        return true;
+    }
+}
