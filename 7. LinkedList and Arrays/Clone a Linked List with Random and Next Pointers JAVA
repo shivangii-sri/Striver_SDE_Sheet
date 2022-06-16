@@ -94,3 +94,28 @@ class Solution {
         }
         return res;   
     }
+    
+ // Leetcode Discussion  -Brute
+ class Solution {
+    public Node copyRandomList(Node head) {
+        HashMap<Node,Node> map = new HashMap<>();
+        Node temp = head;
+        while(temp != null){
+            map.put(temp,new Node(temp.val));
+            temp = temp.next;
+        }
+        temp = head;
+        while(temp != null){
+            Node curr = map.get(temp);
+            Node onext = temp.next;
+            Node dnext = map.get(onext);
+            curr.next = dnext;
+            
+            Node orandom = temp.random;
+            Node drandom = map.get(orandom);
+            curr.random = drandom;
+            temp = temp.next;
+        }
+        return map.get(head);
+    }
+}
