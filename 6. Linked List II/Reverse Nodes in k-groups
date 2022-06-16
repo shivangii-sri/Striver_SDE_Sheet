@@ -1,0 +1,35 @@
+// Most optimal
+
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+      if(head==null || k==1) return head;
+		
+		  ListNode dummy = new ListNode(0);
+		  dummy.next = head;
+		  ListNode pre=dummy , cur=dummy, nex=dummy;
+    
+		  //1. count length of the LL
+		  int count=0;
+		  while(cur.next !=null) {
+        count++;
+        cur = cur.next;
+		  }
+    
+      //2. For each group of size k
+  	  while(count>=k) {
+			  cur = pre.next;
+			  nex=cur.next;			
+        //3. Reverse k-1 links
+        for(int i=1; i<k ; i++) {
+          cur.next = nex.next;
+          nex.next = pre.next;
+          pre.next= nex;
+          nex= cur.next;
+        }
+        //4. pre should point to the last node of the previous reversed group
+			  pre = cur;
+			  count-=k;
+		}
+		return dummy.next;  
+    }
+}
