@@ -1,0 +1,43 @@
+// Most optimal - 2 Pointer
+//1. initialize 2 var left=0, right=n-1
+//2. water (res) = 0, leftmax=0, rightmax=0
+//3. traverse till (l<=r)
+
+// TC = O(N) , Sc = O(1)
+
+class Solution {
+    public int trap(int[] height) {
+        int left=0 , right = height.length -1 , res = 0;
+        int leftmax=0 , rightmax=0;
+        
+        while(left<=right) {
+            if(height[left] <= height[right]) {
+                if(height[left] >= leftmax) 
+                    leftmax = height[left];
+                else{
+                    res+= leftmax - height[left];
+                }
+                left++;
+            }
+            else{
+                if(height[right]>= rightmax) 
+                    rightmax = height[right];
+                else
+                    res += rightmax - height[right];
+                right--;
+            }
+        }
+         return res;
+    }
+
+
+// Method 2 - Better
+//1. Here we make two arrays of same length as of given given array. One to store left maximum, other for right maximum.
+//2. Now for each i in the array, we computer the logic:- water += [min(left(i),right(i)) - arr[i] ]
+// TC = O(3N)  , SC = O(2N) for 2 arrays
+
+// Bruteforce
+//1. For every index, find out the unit of water stored
+//2. For findind water, for every index, find its left maximum to its left and right maximum to its right (both including index itself)
+//3. Then logic:- water += min(left(i),right(i))-a[i] ...i.e whichever is min between both side maximums, take it and subtract arr[index]
+// TC = O(N^2) , SC=O(1)
