@@ -71,13 +71,12 @@ class Solution {
 //2. if you get a triplet , Make a list of it, sort it and store in a set 
 // 3. COnvert Set<List> into List<List> and return res
 // TC = O(N^3) , SC = O(m), m= no. of triplets
+// Solution is Right but giving TLE due to constraints.
 
-// Mostly right but giving TLE
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
     // BRUTE FORCE
        Set<List<Integer>> res = new HashSet<List<Integer>>();
-    
         int n = nums.length;     
         for(int i=0; i<n; i++){
             for(int j=i+1; j<n; j++){
@@ -89,7 +88,7 @@ class Solution {
                         tri.add(nums[i]);
                         tri.add(nums[j]);
                         tri.add(nums[k]);
-                        Collections.sort(tri); //MOST IMP PART
+                        Collections.sort(tri); //MOST IMP PART , so that SET will remove duplicate lists
                         res.add(tri);
                     }
                 }
