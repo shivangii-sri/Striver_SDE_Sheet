@@ -1,0 +1,96 @@
+// Most optimal
+
+class Solution {
+    public Node copyRandomList(Node head) {
+         Node itr = head; 
+         Node front = head;
+
+// First round: make copy of each node and link them together side-by-side in a single list.
+        while(itr != null) {
+            Node copy = new Node(itr.val);
+            front = itr.next;
+            itr.next = copy;
+            copy.next = front;
+            
+            itr = front;
+        }
+  // Second round: assign random pointers for the copy nodes.
+        
+        itr = head;
+        while(itr != null) {
+            if(itr.random != null ) {           
+                itr.next.random = itr.random.next;
+             }
+            itr = itr.next.next;
+        }
+ // Third round: restore the original list, and extract the copy list.
+        itr = head;
+        Node pseudohead = new Node(0);
+        Node copy = pseudohead;
+         
+        while(itr!=null) {
+            front = itr.next.next;
+            // extract the copy
+            copy.next = itr.next;
+            copy = copy.next;
+            // restore the original list
+            itr.next = front;
+            itr = front;
+          }
+        
+        return pseudohead.next;
+    }
+}
+
+
+
+// Bruteforce - Simple
+//1. Create a map to store (original node -> deep copy node)
+//2. Iterate in the original LL, assign next and random pointers by extracting deep copy nodes from Map.
+// TC = O(2N) , SC= O(N) for Map
+
+// MY SOLUTION
+class Solution {
+    public Node copyRandomList(Node head) {
+        Map< Node , Node> mp = new HashMap<Node, Node>();
+        Node dummy= head;
+        while(dummy != null){
+            Node temp = new Node(dummy.val); //create deep copy
+            mp.put(dummy, temp); //Add into your map (Node-> deep copy node)
+            dummy = dummy.next;
+        }      
+        dummy=head; // to iterate in original list
+        Node res = mp.get(dummy);
+        Node dd = res; //to iterate in deep copy list
+        while(dummy != null) {            
+            dd.next = mp.get(dummy.next);            
+            dd.random = mp.get(dummy.random);                 
+        
+            dd = dd.next; //move dd ! i was forgetting to move dd
+            dummy = dummy.next; //move dummy !
+        }
+        return res;   
+    }
+}
+
+//Sudhanshu Solution
+  public Node copyRandomList(Node head) {
+        Map< Node , Node> mp = new HashMap<Node, Node>();
+        Node dummy= head;
+        while(dummy != null){
+            Node temp = new Node(dummy.val); //create deep copy
+            mp.put(dummy, temp); //Add into your map (original node-> deep copy node)
+            dummy = dummy.next;
+        }      
+        dummy=head; // to iterate in original list
+        Node res = mp.get(dummy);
+ 
+        while(dummy != null) {
+            Node dd = mp.get(dummy);
+            dd.next = mp.get(dummy.next);            
+            dd.random = mp.get(dummy.random);                 
+        
+            dummy = dummy.next; //move dummy !
+        }
+        return res;   
+    }
