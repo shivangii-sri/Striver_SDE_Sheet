@@ -1,0 +1,45 @@
+// Most Optimal -> Two-Pointer Approach
+//1. Make two pointers i=0, j=i+1
+//2. If a[j]==a[i] i.e duplicate, we move j forward
+//2. If a[j] != a[i] then i++, store a[j] in a[i], move j forward
+// TC = O(N) , SC = O(1)
+
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        if(nums.length == 0) return 0;           
+        int i=0;
+        for(int j=1 ; j<nums.length ; j++) {
+          if(nums[j]!=nums[i]) {
+              i++;
+              nums[i] = nums[j];
+          }
+        }
+        return i+1;
+    }
+}
+
+//Brute force - HashSet
+//1. Traverse the array , insert each element into the set
+//2. One by one take out element from set, add to your array.
+//3. Return set.size()
+// ==>TC = O(N * logN) logN for inserting into set  ==>SC=O(N) for set
+// NOTE : HashSet will not work, bcz we need to maintain insertion order in set. So we use LinkedHashSet or TreeSet..............!
+
+
+import java.util.*;
+class Solution {
+    public int removeDuplicates(int[] nums) {
+       
+        Set<Integer> set = new LinkedHashSet<Integer>();   OR  Set<Integer> set = new TreeSet<Integer>();
+        for(int e : nums){
+            set.add(e);
+        }
+        int i=0;
+        Iterator it = set.iterator();
+        while(it.hasNext()){
+            nums[i++] = (Integer)it.next();
+        }
+        
+        return set.size();
+    }
+}
