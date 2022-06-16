@@ -1,0 +1,63 @@
+// Most Optimal
+//1. Find length of LL
+//2. Point last node to first node
+//3. Update k value in 2 steps as k=k%len ; k= len-k;
+//4. Point kth node to null and return next node as head
+// TC = O(N)  , SC=O(1)
+
+
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if(head==null || head.next==null || k==0) return head;        
+        // Count length
+        ListNode cur = head;
+        int len=1;
+        while(cur.next!=null){
+            len++;
+            cur = cur.next;
+        }
+        // assign last node.next = first node
+        cur.next = head;
+        
+        // Update k
+        k = k%len;
+        k = len-k;
+        
+        // break the bond and return head
+        while(k-->=1){
+            cur = cur.next;
+        }
+        head = cur.next;
+        cur.next = null;
+        return head;
+    }
+}
+
+// Bruteforce - 
+//1. Traverse to last node, place it to the front of list
+//2. Repeat this for k times
+//TC = O(k * N) ==> gives TLE for k=10^8,   SC = O(1)
+
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+         if(head==null || head.next==null) return head;
+         ListNode dummy= head;
+         int count=0;
+         while(dummy!=null){
+             count++;
+         }
+         k=k%count;
+         while(k>=1) {
+            ListNode curr = head , temp=null;
+             while(curr.next!=null){
+                 temp=curr;
+                 curr=curr.next;
+             }
+             temp.next=null;
+             curr.next=head;
+             head= curr;
+             k--;
+         }
+         return head;
+    }
+}
