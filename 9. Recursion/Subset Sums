@@ -1,0 +1,32 @@
+// Questiobn - Given a list arr of N integers, print sums of all subsets in it.
+// Eg. arr[] = {2, 3}   ,  Output: 0 2 3 5   , Explanation:- Subsets are {}, {2}, {3}, {2,3}
+
+// Most Optimal
+//1. Starting with index 0 in the array, we go till the last index
+//2. For every index, we decide to pick and to not pick the element, and on reaching last index this patterns gives us all the subsets of the array.
+// TC = O(2^N) for recursion of all subsets + (2^N log(2^N)) for sorting ans list , SC=O(2^N) ans list has 2^N elements bcz no of subsets=2^N
+
+class Solution{
+    ArrayList<Integer> subsetSums(ArrayList<Integer> arr, int N){
+        // code here
+        ArrayList<Integer> ans = new ArrayList<>();
+        helper(0, 0, arr, N, ans);
+        //Sort the ans list as question demands
+        Collections.sort(ans);
+        return ans;
+    }
+    
+    private static void helper(int ind, int sum, ArrayList<Integer> arr, int N, ArrayList<Integer> ans){
+        // base case
+        if(ind == N){
+            ans.add(sum);
+            return;
+        }
+        //Pick the element
+        helper(ind+1, sum+arr.get(ind) , arr, N, ans);
+        //Not pick the element
+        helper(ind+1, sum , arr, N, ans);
+    }
+}
+
+//Brute Force - Using Power Set. TC = O(2^N * N )
