@@ -1,0 +1,62 @@
+//Most Optimal
+//TC = O(2^N * K) , k to add each combination of length k into ans 
+//SC = O(k*x) , k=length of subsets, x=no. of subsets
+
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Arrays.sort(candidates); // To avoid duplicates
+        
+        findCombination(0, candidates, target, ans, new ArrayList<>() ) ;
+        return ans;
+    }   
+    private void findCombination(int ind, int[] arr, int target, List<List<Integer>> ans, List<Integer> ds){        
+        if(target == 0){
+            ans.add(new ArrayList<>(ds));
+            return;
+        }
+        if(ind == arr.length){
+            return;
+        }        
+        for(int i=ind ; i<arr.length ; i++){
+            if(i>ind && arr[i] == arr[i-1]) continue;  // To SKIP DUP can also use -> while (i + 1 < arr.length && arr[i + 1] == arr[i]) i++;
+            if(arr[i] > target) break;
+            ds.add(arr[i]);
+            findCombination(i+1, arr, target-arr[i] , ans, ds);
+            ds.remove(ds.size()-1);
+         }       
+    }
+    
+}
+
+// BRUTE FORCE , TC = O(2^n x O(K) x O(KlogK))  , SC = O(N)->recursion depth + ds->O(K) ,ans- O(K), k=length of combinations
+// based on slight modifications in Combination Sum-1
+// 172 / 175 test cases passed.
+// Gives TLE on worst case test case - 
+[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+30
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {   
+        Set<List<Integer>> set = new HashSet<>();
+        List<Integer> ds = new ArrayList<>();
+        helper(0 , candidates, target , set , ds);      
+        return new ArrayList<List<Integer>>(set);
+    }
+    private void helper(int ind, int[] arr, int target , Set<List<Integer>> set, List<Integer> ds){
+        if(target == 0){
+            List<Integer> toadd = new ArrayList<>(ds);
+            Collections.sort(toadd);
+            set.add(toadd);
+            return;
+        }
+        if(ind == arr.length){
+            return;
+        }       
+        if(arr[ind] <= target){
+            ds.add(arr[ind]);
+            helper(ind+1 , arr, target-arr[ind] , set, ds);
+            ds.remove(ds.size()-1);
+        }
+        helper(ind+1 , arr, target , set, ds);
+    }          
+}
