@@ -1,0 +1,53 @@
+// Most optimal, 
+ // TC = O(2^n x N) N for adding subset into ans, 
+ // SC = O(2^n x K ) for k=avg length of each subset , auxilliary space = O(N) which is depth of recursion
+class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> ans = new ArrayList<List<Integer>>();
+        List<Integer> ds = new ArrayList<>();
+       
+        helper(0 , nums, ans , ds);
+        return ans;
+    }
+    private void helper(int ind, int[] arr ,  List<List<Integer>> ans, List<Integer> ds){
+        ans.add(new ArrayList<>(ds));
+        
+        for(int i=ind ; i< arr.length ; i++){
+            if(i!=ind && arr[i] == arr[i-1]) continue;
+            ds.add(arr[i]);
+            helper(i+1 , arr, ans, ds);
+            ds.remove(ds.size()-1);
+        }
+    }
+    
+}
+
+
+
+// Brute Force, Pick and Not pick , 
+        // TC = O(2^n x log(2^n) ) , log(2^n) is to add lists into hashSet 
+        //--2^n -> TC for no. of recursion calls, bcz for n elements we have 2 option, pick, not pick
+        // SC = 2^n subsets 
+class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Set<List<Integer>> hs = new HashSet<>();
+        List<Integer> ds = new ArrayList<>();
+        
+        helper(0 , nums, hs , ds);
+        return new ArrayList<List<Integer>>(hs);
+    }
+    private void helper(int ind, int[] arr ,  Set<List<Integer>> hs, List<Integer> ds){
+        if(ind == arr.length){
+            List<Integer> list = new ArrayList<>(ds);
+            Collections.sort(list);
+            hs.add(list);
+            return;
+        }
+        ds.add(arr[ind]);
+        helper(ind+1 , arr, hs, ds);
+        ds.remove(ds.size()-1);
+        helper(ind+1 , arr , hs, ds);
+        
+    }
+}
