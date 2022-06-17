@@ -1,0 +1,35 @@
+// Ques ==>Input: candidates = [2,3,6,7], target = 7  ==>Output: [[2,2,3],[7]]
+// Same no. can be repeated in the combination
+//Most Optimal Solution
+// TC = O(2^t * K) K is avg length of ds-> it is for adding ds to ans
+// SC = very hypothetical, cant determine, still like O(k * x) k=length of combination, x=no. of combination
+
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> ans = new ArrayList<>();
+        helper(0, candidates, target, ans, new ArrayList<>() ) ;
+        return ans;
+    }
+    
+    private void helper(int ind, int[] arr, int target, List<List<Integer>> ans, List<Integer> ds){
+        // Base Case 1
+        if(target == 0){
+            ans.add(new ArrayList<>(ds));
+            return;
+        }
+        // Base Case 2
+        if(ind == arr.length){
+            if(target == 0) ans.add(new ArrayList<>(ds)); //OPTIONAL bcz this check is already made above in base case 1, so we can skip here !
+            return;
+        }
+        //Pick if arr[i] <= target
+        if(arr[ind] <= target){
+            ds.add(arr[ind]);
+            helper(ind , arr, target-arr[ind] , ans, ds);
+            ds.remove(ds.size()-1);
+        }
+        // Not Pick
+        helper(ind+1 , arr , target , ans, ds);
+        return;
+    }
+}
