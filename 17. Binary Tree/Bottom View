@@ -1,0 +1,43 @@
+// Approach: 
+// 1. Make a Queue of pair (Node, line number +ve or -ve)
+// 2. Make a Map data structure to store (Line-> Node value). Map stores keys in sorted order
+// 3. Follow the LEVEL ORDER traversal.
+// 4. Traverse through the nodes until queue is not empty. Store the node  and line no. in 2 separate variables .
+// 5. when popping out node from queue ine ach iteration, store (line->node.val) into MAP.
+    //->if there will be any node value present that corresponds to a line in the map , it will be replaced by the new node value
+    //->and by this we will get the last node of each line.
+// 6. Store the node->left and node->right along with their line nos. to the queue.
+// 7. Lastly, print the node->val from the map
+
+class Solution
+{
+    //Function to return a list containing the bottom view of the given tree.
+    public ArrayList <Integer> bottomView(Node root)
+    {
+        ArrayList<Integer> ans = new ArrayList<>(); 
+        if(root == null) return ans;
+        Map<Integer, Integer> map = new TreeMap<>();
+        Queue<Node> q = new LinkedList<Node>();
+        root.hd = 0; //line value of root node is set to 0 before adding into queue
+        q.add(root); 
+        while(!q.isEmpty()) {
+            Node temp = q.remove();
+            int hd = temp.hd; 
+            map.put(hd, temp.data); 
+            if(temp.left != null) {
+                temp.left.hd = hd - 1; 
+                q.add(temp.left); 
+            }
+            if(temp.right != null) {
+                temp.right.hd = hd + 1; 
+                q.add(temp.right); 
+            }
+        }
+        
+        for (Map.Entry<Integer,Integer> entry : map.entrySet()) {
+            ans.add(entry.getValue()); 
+        }
+        return ans; 
+        
+    }
+}
