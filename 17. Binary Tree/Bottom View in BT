@@ -1,5 +1,5 @@
 -> Note: Recusrive Solution can lead to wrong answer if height is not taken care of which is extra overhead. So better use LEVEL ORDER!
-// Approach: 
+// Approach:  ("The last node in every line will be my bottom view")
 // 1. Make a Queue of pair (Node, line number +ve or -ve)
 // 2. Make a Map data structure to store (Line-> Node value). Map stores keys in sorted order
 // 3. Follow the LEVEL ORDER traversal.
