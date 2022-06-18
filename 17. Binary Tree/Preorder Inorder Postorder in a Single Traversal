@@ -9,7 +9,59 @@
   left node push      right node push
 
 //TC = O(3N) , SC=O(N) for stack
+
+//Coding Ninja Solution
+import java.util.*;
+class Pair{
+    BinaryTreeNode node;
+    int num;
+    public Pair(BinaryTreeNode _node , int _num){
+        node = _node;
+        num = _num;
+    }
+}    
+  public class Solution {
+    public static List<List<Integer>> getTreeTraversal(BinaryTreeNode<Integer> root) {
+        Stack<Pair> st = new Stack<Pair>();
+        st.push(new Pair(root , 1));
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> pre=new ArrayList<>();
+        List<Integer> in=new ArrayList<>();
+        List<Integer> post=new ArrayList<>();      
+        
+        if(root == null) return result;
+        while(!st.isEmpty()){
+            Pair it = st.pop();
+            if(it.num == 1){
+                pre.add((int)it.node.data);
+                it.num++;
+                st.push(it);
+                if(it.node.left != null){
+                    st.push(new Pair(it.node.left , 1));
+                }
+            }
+            else if(it.num == 2){
+                in.add((int)it.node.data);
+                it.num++;
+                st.push(it);
+                if(it.node.right != null){
+                    st.push(new Pair(it.node.right , 1));
+                }
+            }
+            else{
+                post.add((int)it.node.data);
+            }
+        }
+        result.add(in);
+        result.add(pre);
+        result.add(post);
+        return result;
+    }
+}
  
+
+/**************** Simply Solution ************************/
+
 import java.util.*;
 class TreeNode {
     int val;
