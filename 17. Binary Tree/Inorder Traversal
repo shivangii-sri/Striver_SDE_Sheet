@@ -1,0 +1,18 @@
+//Inorder = Left Root Right
+// TC = O(N) - bcz traversing all the nodes of tree 
+// SC = O(N) - recursive stack space in worst case if its a skew tree
+
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<Integer>();        
+        inorderDFS(root , res);        
+        return res;
+    }
+    public static void inorderDFS(TreeNode node , List<Integer> res) {
+        //base case
+        if(node == null) return;
+        inorderDFS(node.left , res);
+        res.add(node.val);
+        inorderDFS(node.right , res);
+    }
+}
