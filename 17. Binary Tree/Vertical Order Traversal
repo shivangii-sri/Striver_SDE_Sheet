@@ -1,0 +1,65 @@
+class Tuple {
+    TreeNode node; 
+    int row; //vertical
+    int col;  // level
+    public Tuple(TreeNode _node, int _row, int _col) {
+        node = _node; 
+        row = _row; 
+        col = _col; 
+    }
+}
+class Solution {
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        Queue<Tuple> q = new LinkedList<Tuple>();
+        q.offer(new Tuple(root , 0 , 0));
+        TreeMap<Integer , TreeMap<Integer , PriorityQueue<Integer>>> mp = new TreeMap<>();
+        
+        while(!q.isEmpty()){
+            Tuple t = q.poll();
+            
+            TreeNode node = t.node;
+            int x = t.row; //vertical
+            int y = t.col; //level
+         
+            if(!mp.containsKey(x) ) {
+                mp.put(x , new TreeMap<>());
+            }
+            if (!mp.get(x).containsKey(y)) {
+                mp.get(x).put(y, new PriorityQueue<>());
+            }
+  //        mp.get(x).put(y , node.val); wrong one x
+            mp.get(x).get(y).offer(node.val); // right one +
+            
+            if(node.left!=null){
+                q.offer(new Tuple(node.left , x-1 , y+1));
+            }
+            if(node.right != null) {
+                q.offer(new Tuple(node.right, x + 1, y + 1)); 
+            }            
+        }
+        
+       List<List<Integer>> list = new ArrayList<>();
+                                                        //mp.values() -> -2, -1, 0, 1, 2
+        for(TreeMap<Integer , PriorityQueue<Integer>> ys : mp.values()){ // For all verticals eg. for vertical 0      
+          
+            List<Integer> level = new ArrayList<>();           
+                                           //  ys.values() -> level 0, 1 , 2, 3, 4  
+            for(PriorityQueue<Integer> nodes : ys.values()){ // 0 -> for all levels - 0{3} , 2{15}                
+                while(!nodes.isEmpty()){
+                     level.add(nodes.poll());
+                }
+            }
+            list.add(level);
+        }       
+        return list;
+    }
+}
+/* for (TreeMap<Integer, PriorityQueue<Integer>> ys : map.values()) {
+            list.add(new ArrayList<>());
+            for (PriorityQueue<Integer> nodes : ys.values()) {
+                while (!nodes.isEmpty()) {
+                    list.get(list.size() - 1).add(nodes.poll());
+                }
+            }
+        }
+*/
