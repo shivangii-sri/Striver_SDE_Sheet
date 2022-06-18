@@ -1,0 +1,45 @@
+// Most Optimal
+// TC = O(N^2) , SC = O(N) for numbers[] array
+class Solution {
+    public String getPermutation(int n, int k) {
+        
+        int fact=1;
+        List<Integer> numbers = new ArrayList<>();
+        //Say n=4
+        //Compute n-1 factorial value = 6(here) Why n-1, bcz you know if n=4, first block is of size 6
+        //Simultaneously build your array to pick elements from [1,2,3,4]
+        for(int i=1; i<n; i++){
+            fact = fact * i;
+            numbers.add(i);
+        }
+        numbers.add(n); // completes adding last element of array [1,2,3,4]
+        String ans = "";
+        k = k-1; //bcz 0-based indexing
+        while(true){
+            ans = ans + numbers.get(k / fact); //pick the [k/fact]th value from nums[]
+            numbers.remove(k / fact);
+            if(numbers.size() == 0) break;
+            
+            k = k % fact;
+            fact = fact / numbers.size();
+        }
+        return ans;
+    }
+}
+
+
+// Suppose Given n=4, k=17
+// we have to find 15th permutation
+// Initially array is num = [1,2,3,4]
+//1. number to select = num[k / 3!] = num[17 / 6] = num[2] = 3
+//2. remove this selected numebr from num = [1,2,4]
+//3. k reduces to 16 % 6 = 4
+//4. next block size i.e next fact = 2! = (6/3) = (fact/num size)
+
+// Brute force
+// We use recursion to generate all N! permutations. Store all the permutations into some data structure.
+// Sort the DS  ,so that it becomes lexicographical order of permutations
+  // TC = O(N! * n)  => N! to generate all the permutation, *n to store deep copy of each permutation into data.struc
+     TC = Above + mlogm to sort the ds where m=N! bcz there are N! permutations 
+// SC = O(n * k)
+
