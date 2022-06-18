@@ -1,0 +1,75 @@
+// Most Optimal
+//1. Create a stack of Pair(node, num). Push a pair(root.value, num=1) to it. 
+//2. Create three separate lists for preorder, inorder and postorder traversals.
+//3.  Loop until stack not empty
+  
+  Case1: if num==1    Case2: if num==2    Case3: if num==3
+  preorder            inorder             postorder
+  ++                  ++                  
+  left node push      right node push
+
+//TC = O(3N) , SC=O(N) for stack
+ 
+import java.util.*;
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode() {}
+    TreeNode(int val) {
+        this.val = val;
+    }
+}
+class Pair {
+    TreeNode node;
+    int num;
+    Pair(TreeNode _node, int _num) {
+        num = _num;
+        node = _node;
+    }
+}
+public class TUF {
+    public static void allTraversal(TreeNode root, List < Integer > pre, List < Integer > in , List < Integer > post) {
+        //1. create stack
+        Stack < Pair > st = new Stack < Pair > ();
+        st.push(new Pair(root, 1));
+        //2. create 3 lists
+        List <Integer> pre = new ArrayList<>();
+        List <Integer> in = new ArrayList<>();
+        List <Integer> post = new ArrayList<>();
+        if (root == null) return;
+        while (!st.isEmpty()) {
+            Pair it = st.pop();
+
+            // this is part of pre
+            // increment 1 to 2 
+            // push the left side of the tree
+            if (it.num == 1) {
+                pre.add(it.node.val);
+                it.num++;
+                st.push(it);
+
+                if (it.node.left != null) {
+                    st.push(new Pair(it.node.left, 1));
+                }
+            }
+
+            // this is a part of in 
+            // increment 2 to 3 
+            // push right 
+            else if (it.num == 2) { 
+                in.add(it.node.val);
+                it.num++;
+                st.push(it);
+
+                if (it.node.right != null) {
+                    st.push(new Pair(it.node.right, 1));
+                }
+            }
+            // don't push it back again 
+            else {
+                post.add(it.node.val);
+            }
+        }// while close
+    }
+}//close class
