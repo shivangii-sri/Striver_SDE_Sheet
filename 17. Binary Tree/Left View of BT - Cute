@@ -1,0 +1,24 @@
+// Iteartive solution takes more space - entire tree length BUT recursive soln stack space will be O(height of tree) on avg. So use recursion. Also better crisp code
+// Optimal Recursive Code
+// TC = O(N) , SC = O(height of tree)
+
+//Approach - We do recursive traversal as "Root Left Right".
+// On calling left and right nodes, make sure to incr the level by 1.
+// The first node that we get in every new level is added to my  left_view
+
+
+public class Solution 
+{
+    public static ArrayList<Integer> getLeftView(TreeNode<Integer> root) 
+    {
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        helper(root, res, 0);
+        return res;
+    }
+    public static void helper(TreeNode node, List<Integer> res, int level){
+        if(node == null ) return;
+        if(level == res.size()) res.add((Integer)node.data);
+        helper(node.left , res, level+1);
+        helper(node.right , res, level+1);
+    }
+}
