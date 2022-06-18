@@ -1,0 +1,40 @@
+-> Note: Recusrive Solution can lead to wrong answer if height is not taken care of which is extra overhead. So better use LEVEL ORDER!
+// Approach:  ("The first node in every line will be my bottom view")
+// 1. Make a Queue of pair (Node, line number +ve or -ve)
+// 2. Make a Map data structure to store (Line-> Node value). Map stores keys in sorted order
+// 3. Follow the LEVEL ORDER traversal.
+// 4. Traverse through the nodes until queue is not empty. Store the node  and line no. in 2 separate variables .
+// 5. when popping out node from queue ine each iteration, check if that line is present in the map or not. If not, only then store (line->node.val) into MAP.
+    //because for top view, we want only the first node in every line no to be stored in MAP
+// 6. Store the node->left and node->right along with their line nos. to the queue.
+// 7. Lastly, print the node->val from the map
+// TC=O(N) , SC = O(2N) for Map and Queue
+
+class Solution
+{
+    public static ArrayList<Integer> topView(Node root)
+    {
+        ArrayList<Integer> ans = new ArrayList<>(); 
+        if(root == null) return ans;
+        Map<Integer, Integer> map = new TreeMap<>();
+        Queue<Pair> q = new LinkedList<Pair>();
+        q.add(new Pair(root, 0)); 
+        while(!q.isEmpty()) {
+            Pair it = q.remove();
+            int hd = it.hd; 
+            Node temp = it.node; 
+            if(map.get(hd) == null) map.put(hd, temp.data); 
+            if(temp.left != null) {
+                
+                q.add(new Pair(temp.left, hd - 1)); 
+            }
+            if(temp.right != null) {               
+                q.add(new Pair(temp.right, hd + 1)); 
+            }
+        }    
+        for (Map.Entry<Integer,Integer> entry : map.entrySet()) {
+            ans.add(entry.getValue()); 
+        }
+        return ans;        
+    }
+}
