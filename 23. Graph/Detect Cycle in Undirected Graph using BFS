@@ -1,6 +1,6 @@
 // Intuition : If the adjacent node of a current node is already visited and NOT equal parent of the current node, means cycle is present in the undirected graph.
-// TC= O(N+E),  N is the time taken and E is for traveling through adjacent nodes overall. 
-// SC= O(N+E) +  O(N) + O(N) , space for adjacent list , array and queue
+// TC= O(N+E),  N is the time taken for visiting N nodes and E is for traveling through adjacent nodes overall. 
+// SC= O(N+E) +  O(N) + O(N) , space for adjacent list , vis array and auxiliary space
 
 class Node { 
     int first; //->Node's value
