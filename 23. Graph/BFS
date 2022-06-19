@@ -1,0 +1,38 @@
+BFS Approach- start from a node and traverse all adjacent nodes first
+We need :- (a). Queue Data structure (b). Visited Array
+//1. Push the 1st node into the queue, mark it as visited. 
+//2. Loop until queue is not empty.
+//3. Then find its adjacent nodes. If we get some unvisited node, we will simply push this adjacent node into the queue data structure.
+//4. Now since the work of the 1st node is done, we will pop out this node from the queue. Now, this process goes on until the queue is not empty.
+//==>TC  = O(N+E) [N is time taken for visiting N ndoes, E is for travelling through adjacent nodes overall]
+//==>SC = O(N+E) + O(N) + O(N) [adj list , vis array, queue]
+
+
+class Solution {
+    public static ArrayList < Integer > bfsOfGraph(int V, ArrayList < ArrayList < Integer >> adj) {
+        ArrayList < Integer > bfs = new ArrayList < > ();
+        boolean vis[] = new boolean[V];
+        // Traverse for all the componets
+        for(inti=0; i<V ; i++){
+            if(vis[i] == false){
+                Queue < Integer > q = new LinkedList < > ();
+                q.add(0);
+                vis[0] = true;
+                // Loop until q not empty
+                while (!q.isEmpty()) {
+                    Integer node = q.poll();
+                    bfs.add(node);
+                    // Get all adjacent vertices of node, If a adjacent has not been visited, then mark it visited and enqueue it
+                    for (Integer it: adj.get(node)) {
+                        if (vis[it] == false) {
+                            vis[it] = true;
+                            q.add(it);
+                        }
+                    }
+                }//while close                
+            }/if close
+        }// for close
+        
+        return bfs;
+    }
+}
