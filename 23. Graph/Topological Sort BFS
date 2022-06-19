@@ -1,0 +1,50 @@
+==> Topological sort: The linear ordering of nodes/vertices such that if there exists an edge between 2 nodes u,v then ‘u’ appears before ‘v’.
+// Topo Sort BFS is slightly diff from normal BFS as it uses:- indegree[] , Queue
+Approach -
+//1. Create Indegree array and mark indegree of each node
+//2. Create a queue in BFS, push nodes into queue having indegree=0
+//3. loop until q is not empty
+//4. Pop out node in queue, add into your toposort array. Visit all its adjacent nodes, decr their indegree by 1.
+//5. if in case indegree of any adjacent node becomes equal to 0, add it into q.
+//6. return answer stored in toposort array.
+
+// TC = O(N+E)  , N = Number of node , E = Number of Edges
+// SC = O(N) + O(N) , indegree[] , queue
+
+class Solution
+{
+    public static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) 
+    {
+        int[] ans = new int[V]; // to store answer        
+       
+       //1. make indegree aray and mark it
+        int indegree[] = new int[V];
+        for(int i=0; i<V; i++){
+            for(Integer it : adj.get(i)){
+                indegree[it]++;
+            }
+        }       
+        
+        //2. Make a queue. Push nodes having indegree 0 into the queue
+        Queue<Integer> q = new LinkedList<Integer>();
+        for(int i=0; i<V; i++){
+            if(indegree[i] == 0) 
+                q.add(i);
+        }       
+        
+        int ind = 0;
+        while(!q.isEmpty()){
+            Integer node = q.poll();
+            ans[ind++] = (int)node;         
+            for(Integer it : adj.get(node)) {
+                indegree[it]--;
+                
+                if(indegree[it] == 0){
+                    q.add(it);
+                }
+            }
+        }       
+        return ans;       
+    }
+}
+
