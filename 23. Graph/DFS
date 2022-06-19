@@ -1,0 +1,30 @@
+DFS Approach-
+//1. Start with a random node from graph
+//2. Make a Vis array to keep track of visited nodes
+//3. Print this current node, mark it as visited.
+//4. Get  neighbour nodes and perform above steps recursively for each node deeply/depthly if node is unvisited.
+//==>TC  = O(N+E) [N is time taken for visiting N ndoes, E is for travelling through adjacent nodes overall]
+//==>SC = O(N+E) + O(N) + O(N) [adj list , vis array, queue]
+
+class Solution {
+public static ArrayList<Integer> dfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj)
+    {
+        ArrayList<Integer> storeDfs = new ArrayList<>();     
+        boolean vis[] = new boolean[V+1];      
+        for(int i = 1;i<=V;i++) {
+            if(!vis[i]) dfs(i, vis, adj, storeDfs);
+        }
+        return storeDfs;
+    }
+    public static void dfs(int node, boolean vis[], ArrayList<ArrayList<Integer>> adj, ArrayList<Integer> storeDfs) {
+        storeDfs.add(node);
+        //marking current node as visited
+        vis[node] = true;
+        //getting neighbour nodes
+        for(Integer it: adj.get(node)) {
+            if(vis[it] == false) {
+                dfs(it, vis, adj, storeDfs);
+            }
+        }
+    }
+ }
