@@ -1,0 +1,37 @@
+/* Detect Cycle in DIRECTED Graph - we use vis[], dfsVis[]
+=> Intuition: A cycle involves at least 2 nodes. The basic intuition for cycle detection is to check whether a node is reachable when we are processing its neighbors 
+and also its neighbors’ neighbors, and so on.
+=> Why we need two vis arrays? We need a second array to tell whether, at any point in time, we are processing a node’s neighbors. bcz its a directed graph. 
+For eg. We can reach node 2 from 0->1->2 or 0->2. But its not a cycle. so we track dfsvis to keep track of a current node's neighbours we are visiting.
+Once we finished processing the node’s neighbors, we can update the array. (mark dfvis as 0 or unvisited)
+// TC= O(N+E),  N is the time taken for visiting N nodes and E is for traveling through adjacent nodes overall. 
+// SC = O(2N + N) , for vis[], dfsvis[], aux space of recursion
+
+class Solution {
+    public static boolean isCyclic(int N, ArrayList<ArrayList<Integer>> adj) {
+        int vis[] = new int[N];
+        int dfsVis[] = new int[N];      
+        for(int i = 0;i<N;i++) {
+        	  if(vis[i] == 0) {
+                if(checkCycle(i, adj, vis, dfsVis) == true) return true;
+        	  }
+        }
+        return false;
+    }
+    private static boolean checkCycle(int node,  ArrayList<ArrayList<Integer>> adj, int vis[], int dfsVis[]) {
+        vis[node] = 1;
+        dfsVis[node] = 1;       
+        for(Integer neighbor: adj.get(node)) {
+            if(vis[neighbor] == 0) {
+                  if(checkCycle(neighbor, adj, vis, dfsVis) == true) {
+                    return true;
+                }
+            } 
+            else if(dfsVis[neighbor] == 1) { 
+                return true; // Cycle present
+            }
+        }
+        dfsVis[node] = 0;
+        return false;
+    }    
+}
