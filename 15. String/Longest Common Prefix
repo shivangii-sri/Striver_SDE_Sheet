@@ -1,0 +1,19 @@
+//Approach to find longest common prefix - common from the starting
+//1. Store first String of the array as your answer prefix.
+//2. Iterate through each string in the array, check if the index of this "prefix" is equal to 0 or not.
+//3. If the starting index of prefix is not equal to 0, modify your prefix - keep Trimming it down by 1 size from end until index of prefix becomes = 0. 
+//4. Return prefix
+
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+    int n = strs.length;
+		String prefix = strs[0];
+    
+		for(int i= 1; i<n ; i++) {
+			while(strs[i].indexOf(prefix) != 0) {
+				prefix = prefix.substring(0, prefix.length()-1);
+			}
+		}
+		return prefix;
+    }
+}
