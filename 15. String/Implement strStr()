@@ -1,0 +1,36 @@
+/* strStr() => Given two strings needle and haystack, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+Leetcode 28: 
+==>Input: haystack = "hello", needle = "ll" ==>Output: 2
+
+//Approach - easy
+//1. If needle length == 0, return 0
+//2. Iterate in the haystack, make 3 checks as follows :-
+  //a. check if char at i is matching with first char of needle?
+  //b. if yes, check if length of needle is within haystack length
+  //c. check if content from i is same as needle.
+  //d. if yes, return i
+//3. else return -1
+
+//TC = O()
+
+class Solution {
+    public int strStr(String haystack, String needle) {
+        if(needle.length()==0) return 0;     
+        int len = needle.length();
+        for(int i=0; i<haystack.length() ; i++) {
+           
+            if(haystack.charAt(i) == needle.charAt(0)){
+                if(i + len-1  < haystack.length()) {
+                    if (check(haystack.substring(i,i+len ) , needle) == true) return i;
+                }
+            }
+            
+        }
+        return -1;
+    }
+    
+    private static boolean check(String s1 , String s2) {
+        return s1.equals(s2);    // -- checks for only content of two Strings..
+        // return s1 == s2;  // == operator in Java checks for memory address
+    }
+}
