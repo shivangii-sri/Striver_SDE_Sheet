@@ -35,3 +35,30 @@ class Solution {
 -> Another solution
 -> Leetcode discussion - Using Two Pointers | Regex to remove spaces
 -> https://leetcode.com/problems/reverse-words-in-a-string/discuss/2173515/java-solution-using-two-pointers-simple-solution-with-explanation
+
+class Solution {
+    public String reverseWords(String s) {      
+        if(s==null) return s;
+        //Using regex to replace more than one spaces by a single space
+        s=s.replaceAll("\\s+"," ");        
+        //Removing leading and trailing whitespaces
+        s=s.trim();
+        
+        String[] tempS=s.split(" ");       
+        int i=0;
+        int j=tempS.length-1;
+        //using two pointers to exchange first and last.
+        while(i<j){
+            //exchgnae words at i and j
+            String temp=tempS[i];
+            tempS[i]=tempS[j];
+            tempS[j]=temp;
+
+            i++;
+            j--;
+        }
+        //Converting the String array to String by joining the words
+        String x=String.join(" ",tempS);
+        return x;
+    }
+}
