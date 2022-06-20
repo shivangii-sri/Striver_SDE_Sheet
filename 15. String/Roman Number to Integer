@@ -1,0 +1,68 @@
+// TC = O(N) iterating in the string
+// SC = O(1) ->Constant space to store 7 values in Map 
+
+//Approach 1 - Itearting from beginning
+class Solution {
+    public int romanToInt(String s) {        
+        int ans =0;       
+        Map<Character , Integer> map = new HashMap<Character, Integer>();
+        map.put('I', 1);
+        map.put('V', 5);
+        map.put('X', 10);
+        map.put('L', 50);
+        map.put('C', 100);
+        map.put('D', 500);
+        map.put('M', 1000);
+        
+        int i=0;
+        while(i+1 < s.length()){
+            int first = map.get(s.charAt(i));
+            int second = map.get(s.charAt(i+1));
+            
+            if(first >= second){ // normal flow like XVII 
+                ans += first;
+                i++;
+            }
+            else{
+                ans += second-first;  // Eg. 9 = IX , 94 = XCIV
+                i+=2;
+            }
+        }
+        if(i < s.length()){ //since the while loop will not consider last character if going one at a time. Eg for normal flow like XVII, or XCV
+            ans += map.get(s.charAt(i));
+        }
+        return ans;
+    }
+}
+
+              
+//Approach 2 - Iterating from back.  // TC =O(N) , SC =O(1) constant space to store 7 values in map 
+
+class Solution {
+    public int romanToInt(String s) {
+        Map<Character , Integer> map = new HashMap<Character, Integer>();
+        map.put('I', 1);
+        map.put('V', 5);
+        map.put('X', 10);
+        map.put('L', 50);
+        map.put('C', 100);
+        map.put('D', 500);
+        map.put('M', 1000);
+        
+        int n = s.length();
+        int ans = map.get(s.charAt(n-1)); //store the value at last char int your answer        
+        int i=n-2;
+        while(i>=0){
+            int c1 = map.get(s.charAt(i));  //charcater at current index
+            int c2 = map.get(s.charAt(i+1)); // character at current+1 index           
+            if(c1>= c2){ //XVII
+                ans += c1 ;
+            } 
+            else{ // XCIV
+                ans -= c1;
+            }
+            i--;
+        }
+        return ans;
+    }
+}
