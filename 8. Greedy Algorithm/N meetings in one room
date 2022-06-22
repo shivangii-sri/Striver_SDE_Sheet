@@ -1,0 +1,62 @@
+//N-meeting in One room- ==>TC = O(N)+O(NlogN)+O(N) , SC=O(N) for DS
+//Approach :
+//1. Create a DS of data type "Meeting" to store meetings (start time, end time, meeting number). Add the meetings into your DS
+//2. Sort the meeting acc. to "finish time". If same finish time, sort acc. to the meeting number i.e the position (not acc. to the start time). 
+     -> For sorting the DS, use Comparator class, override the "Compare" function and set it acc. to finish time. 
+//3. Make answer list to store meeting numbers.  //Add first meeting number. //Set end limit of 1st metting
+//4. Iterate from 2nd meeting, check if start time > limit then:
+      (a). add that meeting no into your answer
+      (b). update limit = end time of ith meeting
+//5. return answer.size()
+
+class Meeting{
+    int start;
+    int end;
+    int pos;
+    Meeting(int s, int e, int _pos){
+        start = s;
+        end = e;
+        pos = _pos;
+    }
+}
+class meetingComparator implements Comparator<Meeting>{
+    @Override
+    public int compare(Meeting o1 , Meeting o2){
+        if(o1.end < o2.end) return -1; //-1 -> yahi rakhna hai order sahi hai
+        else if(o1.end > o2.end) return 1; // 1-> flip krdo order
+        //if same finish time, sort on the basis of meeting number.
+        else if(o1.pos < o2.pos) return -1;
+        else return 1;
+    }
+}
+class Solution 
+{    
+    public static int maxMeetings(int start[], int end[], int n)
+    {
+        //1. Create a DS to store meetings
+        ArrayList<Meeting> meet = new ArrayList<Meeting>();
+        
+        //2. Add the meetings into your DS
+        for(int i=0; i<start.length ; i++){
+            meet.add(new Meeting(start[i] , end[i] , i+1)); // 1-based index
+        }
+        //3. Sort the meetings
+        meetingComparator mc = new meetingComparator();
+        Collections.sort(meet , mc);
+        
+        //4. Make an Answer list to store all the meetings order numbers to be performed!
+        ArrayList<Integer> ans = new ArrayList<>();
+        //add first meeting number into answer
+        ans.add(meet.get(0).pos);
+        //set end limit of 1st metting
+        int limit = meet.get(0).end;
+        //iterate from 2nd meeting, check if start time > limit
+        for(int i=1; i<meet.size(); i++){
+            if(meet.get(i).start > limit){
+                ans.add(meet.get(i).pos);
+                limit = meet.get(i).end;
+            }
+        }        
+        return ans.size();
+    }
+}
