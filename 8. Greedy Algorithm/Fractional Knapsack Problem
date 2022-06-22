@@ -1,7 +1,7 @@
 // Fractional knapsack
 //Approach -
 //1. Sort acc. to value/weight. It should be type casted double
-//2. Iterate in Items[] , check if weight of ith item lies within W(Knapsack Weight). 
+//2. Iterate in Items[] , check if (curWeight + weight of ith item) lies within W(Knapsack Weight). 
 //3. If yes, pick entire item i.e add entire value to final value. If not pick fraction of item i.e add fractional value to final value.
 // ==>TC = O(NlogN)+ O(N)  ==> SC = O(1)
 
@@ -25,7 +25,7 @@ class Solution
         
         int curWeight = 0;
         double finalValue = 0.0;
-        //2. Iterate in Items[] , check if weight of ith item lies within W(Knapsack Weight). If yes, pick entire item i.e add entire value to final value.
+        //2. Iterate in Items[] , check if (curWeight + weight of ith item) lies within W(Knapsack Weight). If yes, pick entire item i.e add entire value to final value.
         for(int i=0 ; i<n ; i++){
             if(curWeight + arr[i].weight <= W){
                 curWeight += arr[i].weight;
