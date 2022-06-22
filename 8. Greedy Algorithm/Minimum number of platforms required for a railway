@@ -1,0 +1,36 @@
+//Greedy Approach
+ //1. Sort arrival and departure in asc order
+ //2. start iterating from 2nd arriving train, and first departing train.
+ //3. If a train arriving before departture or at the same time as departure, we need another platform. Else count--.
+ //4. Update maxi platform in each iteration
+ //5. Return 'maxi'
+ 
+//TC=O(2NlogN)+ O(2N)  ==> SC=O(1)
+
+class Solution
+{
+    //Function to find the minimum number of platforms required at the railway station such that no train waits.
+    static int findPlatform(int arr[], int dep[], int n)
+    {
+        //1. Sort arrival and departure in asc order
+        Arrays.sort(arr);
+        Arrays.sort(dep);
+        
+        int maxi=1, count=1;
+        int i=1, j=0; //3. start iterating from 2nd arriving train, and first departing train.
+        while(i<n && j<n){
+            if(arr[i] <= dep[j]){
+                count++; // platform needed
+                i++; //move to next arriving train
+            }
+            else if(arr[i] > dep[j]){
+                count--;
+                j++;
+            }
+            maxi = Math.max(maxi , count);
+        }
+        return maxi;
+        
+    }
+    
+}
