@@ -1,0 +1,61 @@
+// Greedy Approach -
+//1. Sort the array acc. to the descending order of profit.
+//2. Find maximum deadline. Create an array of this size. Initialize this array with -1.
+//3. Now, there is just one linear traversal through the jobs arr[], for every ith element, check if there is any free slot= -1 in the result[] starting from last
+     i.e starting from the ith deadline value to 1.
+//4. If slot is free, track countjobs++ and add profit.
+// ==> TC = O(NlogN) +O(N * M)  ==>SC=O(1)
+
+class Solution
+{
+    //Function to find the maximum profit and the number of jobs done.
+    int[] JobScheduling(Job arr[], int n)
+    {
+        //Sort the array acc. to profit
+        Arrays.sort(arr , (a,b) -> (b.profit-a.profit));
+        
+        // Find maximum deadline value
+        int maxDeadline=0;
+        for(int i=0; i<n; i++) {
+            if(arr[i].deadline > maxDeadline)
+                maxDeadline = arr[i].deadline;
+        }
+        //Create an array of size max deadline
+        int[] result = new int[maxDeadline+1]; // +1 for 1-based indexing
+        
+        //Initialize the result array with -1
+        for(int i=1; i<=maxDeadline ; i++){
+            result[i] = -1;
+        }        
+        //traverse into jobs array
+        int jobProfit=0;
+        int countJobs=0;
+        for(int i=0; i<n; i++){         
+            int curdeadline = arr[i].deadline;
+            for(int j=curdeadline ; j>0 ; j--){
+                //free slot found
+                if(result[j] == -1) //we can add the job
+                {
+                    result[j] = i;
+                    countJobs++;
+                    jobProfit += arr[i].profit;
+                    break; //remember
+                }
+            }
+        }
+        int ans[] = new int[2];
+        ans[0] = countJobs;
+        ans[1] = jobProfit;
+        return ans;        
+    }
+}
+/* Already given in question
+class Job {
+    int id, profit, deadline;
+    Job(int x, int y, int z){
+        this.id = x;
+        this.deadline = y;
+        this.profit = z; 
+    }
+}
+*/
