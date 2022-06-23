@@ -1,0 +1,16 @@
+Code Studio blog link to study about Implementation of Min heap and Max heap : https://www.codingninjas.com/codestudio/library/implementation-of-heap
+
+=>Heap is a :-
+1. Tree data structure.
+2. Complete Binary Tree. (All levels are completely filled, nodes in the last level are as left as possible.)
+3. Tree where the element with the highest or the lowest priority is always stored at the ‘root’ of the tree.
+
+=>Heapify - The process of rearranging the heap by comparing each parent with its children recursively is called heapify.
+
+=> 2 Types of Heap :-
+(a) Min heap
+   -Root node is the smallest of all the other nodes.
+   -The value of every parent node is always (smaller tahn equal to)<= the value of the child nodes.
+(b) Max heap
+   -Root node is the largest of all the other nodes.
+   -The value of every parent node is always >=(greater than equal to) the value of the child nodes.
