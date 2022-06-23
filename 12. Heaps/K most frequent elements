@@ -1,0 +1,55 @@
+// K-Most frequent elements - min heap for "Top K Most" frequent
+//1. Create a map to store (arr[i] -> Frequency)
+//2. Create a Min Heap(freq,num) => key_of_heap = frequency , other value of heap = arr[i] whose frequency we storing in the key.
+//3. Traverse the map and push the (frequency,nums[i]) into minheap. do check that if size of minheap exceeds k, then remove top of minheap.
+//4. pop out elements from heap, return
+// ==> TC = O(NlogK) , ==> SC=O(N) for Map + O(K) for heap
+
+class Pair{
+    int freq;
+    int num;
+    public Pair(int _freq , int _num){
+        freq = _freq;
+        num = _num;
+    }  
+}
+class pairComparator implements Comparator<Pair>{   
+    @Override
+    public int compare(Pair p1, Pair p2){
+        if(p1.freq < p2.freq) return -1;
+        else if(p1.freq > p2.freq) return 1;
+        else return 0;
+    }
+}
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {        
+        //1. Create a map to store arr[i] -> Frequency        
+        Map<Integer, Integer> mp = new HashMap<Integer, Integer>();
+        for(int i=0; i<nums.length ; i++){           
+            mp.put(nums[i], mp.getOrDefault(nums[i], 0) + 1);             
+        }
+        
+        //2. Create a Min Heap.
+        // key of heap = frequency , other value of heap = arr[i] whose frequency we storing in the key
+        pairComparator pc = new pairComparator();        
+        PriorityQueue<Pair> minheap = new PriorityQueue<>(pc);
+        
+        //3. Traverse the map and push the frequency,nums[i] into minheap. do check that if size of minheap exceeds k, then remove top of minheap.
+        for(Map.Entry e : mp.entrySet()){
+            int freq = (int)e.getValue();
+            int num = (int)e.getKey();
+            
+            minheap.add(new Pair( freq, num ) );
+            if(minheap.size() > k) minheap.remove();
+        }        
+        //4.pop out elements from heap, return
+        System.out.println(minheap.size());        
+        int[] ans = new int[minheap.size()];
+        int i=0;
+        while(minheap.size() > 0){            
+            int number = minheap.poll().num;
+            ans[i++] = number;           
+        }
+        return ans;
+    }
+}  
