@@ -1,0 +1,23 @@
+//Approach - Greedy, NOTE: greedy works here because in the denom[] sum of any 2 consecutive values is never larger then the third value. eg. (2+5 < 10)
+//1. Create a denomination array.
+//2. Iterate from back of the array.
+//3. Check if denom[i] is <= amount. If yes, keep incr count of coins until this condintn is true, and keep decreasing the amount value by denom[i].
+//4. else move to next denom.
+//5. return count of coins.
+//TC = O(amount)  , SC = O(1)
+
+
+  public static int findMinimumCoins(int amount) {
+     
+        int denom[] = {1,2,5,10,20,50,100,500,1000};
+        int cnt=0; //to track no. of coins.  
+        //Iterate from back of denomination[]
+        for(int i=denom.length-1 ; i>=0; i--){            
+            while(denom[i] <= amount){
+                if(amount == 0) break;
+                amount = amount - denom[i];
+                cnt++;
+            }
+        }
+        return cnt;       
+  }
