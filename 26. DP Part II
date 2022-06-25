@@ -1,0 +1,56 @@
+Subset Sum equal to K
+
+//Recursion. TC = O(2^N) , SC=O(1) + aux stack space
+public class Solution {
+    public static boolean subsetSumToK(int n, int k, int arr[]){
+        // Write your code here.
+         return solUtil(n,k,arr,0);
+    }
+    public static boolean solUtil(int n,int sum,int[] arr,int index){
+       if(sum==0){
+            return true;
+        }
+        if(index==n){
+            return false;
+        }        
+        boolean take = false;
+        if(sum>=arr[index]){
+            take = solUtil(n,sum-arr[index],arr, index+1);
+        }            
+        boolean notTake = solUtil(n,sum,arr,index+1);      
+        return (take || notTake); 
+    }
+}
+
+
+// MEMOIZATION - Top Down - (n to 0) - 100% correct code on Code Studio- I modified the not wroking code.
+public class Solution {
+    public static boolean subsetSumToK(int n, int k, int arr[]){
+        int dp[][] = new int[n+1][k+1];
+        for (int[] row: dp)
+            Arrays.fill(row, -1);
+        return solUtil(n,k,arr,n-1 , dp);
+    }
+  public static boolean solUtil(int n,int sum,int[] arr,int index, int[][] dp){
+       if(sum==0){
+            return true;
+        }
+        if(index==0){
+            return (arr[0] == sum);
+        }
+        if(dp[index][sum] != -1) return dp[index][sum]==0? false:true;
+     //pick
+        boolean take = false;
+        if(sum>=arr[index]){
+            take = solUtil(n,sum-arr[index],arr, index-1,dp);
+        }            
+     //not pick
+        boolean notTake = solUtil(n,sum,arr,index-1,dp);
+     //returning boolean result but storing int value in dp table   
+        boolean res = take | notTake;
+        dp[index][sum] = (res==true? 1 : 0); 
+        return res;
+    }
+}
+
+
