@@ -13,7 +13,7 @@ Day 8: Greedy Algorithm <br />
 Day 9: Recursion <br />
 Day 10: Recursion and Backtracking <br />
 Day 11: Binary Search <br />
-Day 12: Trie <br />
+Day 12: Heap <br />
 Day 13: Stack and Queue <br />
 Day 14: Stack and Queue Part-II <br />
 Day 15: String <br />
