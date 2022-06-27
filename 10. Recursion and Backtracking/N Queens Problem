@@ -1,0 +1,128 @@
+// OPtimal Approach
+class Solution {
+    public List<List<String>> solveNQueens(int n) {        
+        char[][] board = new char[n][n];
+        for(int i=0; i<n ; i++){
+            for(int j=0; j<n; j++){
+                board[i][j] = '.';
+            }
+        }
+        int leftRow[] = new int[n];
+        int upperDiagonal[] = new int[2*n-1]; 
+        int lowerDiagonal[] = new int[2*n-1]; 
+        List<List<String>> ans = new ArrayList<>();
+        helper(0, n, ans, board, leftRow, lowerDiagonal, upperDiagonal);
+        return ans;
+    }    
+    private void helper(int col , int n , List<List<String>> ans , char[][] board, int leftRow[], int lowerDiagonal[], int upperDiagonal[]){
+        //base case
+        if(col == n){
+            construct(ans, board);
+            return;
+        }       
+        
+        for(int row = 0; row < n; row++) {
+            if(leftRow[row] == 0 && lowerDiagonal[row+col] == 0 && upperDiagonal[board.length -1 + col - row] == 0) {
+                board[row][col] = 'Q';
+                leftRow[row] = 1;
+                lowerDiagonal[row+col] = 1;
+                upperDiagonal[board.length-1 + col - row] = 1;
+                
+                helper(col+1, n, ans, board, leftRow, lowerDiagonal, upperDiagonal );
+                
+                board[row][col] = '.';
+                leftRow[row] = 0;
+                lowerDiagonal[row+col] = 0;
+                upperDiagonal[board.length - 1 + col - row] = 0;
+            }
+        }
+    }    
+    private static void construct (List<List<String>> ans, char[][] board){  
+        List<String> list = new ArrayList<>();   
+        int n = board.length ;        
+        for(int i=0; i<n ; i++){
+            String temp = "";
+            for(int j=0; j<n; j++){
+                temp += board[i][j];
+                //System.out.print(temp + " -> ");
+            }
+            list.add(temp);
+           // System.out.println("List = " + list);
+        }
+        ans.add(list);
+    } 
+}
+
+
+
+//*************************BRUTE FORCE******************************//
+class Solution {
+    public List<List<String>> solveNQueens(int n) {        
+        char[][] board = new char[n][n];
+        for(int i=0; i<n ; i++){
+            for(int j=0; j<n; j++){
+                board[i][j] = '.';
+            }
+        }
+        List<List<String>> ans = new ArrayList<>();
+        helper(0 , n, ans, board);
+        return ans;
+    }   
+    private void helper(int col , int n , List<List<String>> ans , char[][] board){
+        if(col == n){
+            construct(ans, board);
+   //         ans.add(board);
+            return;
+        }        
+        // for col , iterate over each row and check if Q can be placed
+        for(int i=0; i<n ; i++){ // iterating for row
+           if(isSafe(i , col , board) == true){
+               board[i][col] = 'Q';
+               helper(col+1 , n , ans, board);
+               board[i][col] = '.';
+           }   
+        }
+    }
+    private static void construct (List<List<String>> ans, char[][] board){       
+        List<String> list = new ArrayList<>();        
+        int n = board.length ;
+        for(int i=0; i<n ; i++){
+            String temp = "";
+            for(int j=0; j<n; j++){
+                temp += board[i][j];
+                //System.out.print(temp + " -> ");
+            }
+            list.add(temp);
+           // System.out.println("List = " + list);
+        }
+        ans.add(list);
+    }    
+    private static boolean isSafe(int row, int col, char[][] board){
+        int duprow = row;
+        int dupcol = col;       
+        // check horizontal
+        while(col>=0){
+            if(board[row][col] == 'Q') return false;
+            col--;
+        }        
+        row = duprow;
+        col = dupcol;
+        // check up diagonal
+        while(row>=0 && col>=0){
+            if(board[row][col] == 'Q') return false;
+            row--;
+            col--;
+        }
+        
+        //check lower diagonal
+        row = duprow;
+        col = dupcol;
+        while(row<board.length && col>=0){
+            if(board[row][col] == 'Q') return false;
+            row++;
+            col--;
+        }
+        
+        return true;
+    }
+}
