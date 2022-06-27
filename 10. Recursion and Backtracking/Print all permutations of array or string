@@ -1,0 +1,76 @@
+MOST OPTIMAL
+//Approach - 
+// 1. We gonna try every element at first index, so we swap ind=0 with all indices(int i=ind i.e 0,1,2). 
+// 2. This swapping of i and ind is done in a for loop until ind<n. 
+// TC = (n! x N) :- N for adding the list into ans
+// SC = Recusrive O(N) stack space + for ans O(n!), no extra space
+
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();        
+        helper(0 , nums, ans);
+        return ans;
+    }
+    private void helper(int ind, int[] arr, List<List<Integer>> ans){
+        if(ind == arr.length){
+         //  ans.add(Arrays.asList(arr));  // NOT WORKS
+         //  ans.add(Arrays.asList(ArrayUtils.toObject(arr)) );  // NOT WORKS
+         //  ans.add(Arrays.stream(arr).boxed().collect(Collectors.toList()) );  // WORKSSS!!         
+            List<Integer> ds = new ArrayList<>();
+            for(int e : arr){
+                ds.add(e);
+            }
+            ans.add(ds);
+            return;
+        }        
+        for(int i=ind ; i<arr.length ; i++){
+            swap(ind , i , arr);
+            helper(ind+1 , arr, ans); // IMP to call ind+1 and not i+1
+            swap(ind, i, arr); // to swap back before making other calls (backtrack)
+        }
+    }
+    private void swap(int a, int b , int[] arr){
+        int temp = arr[a];
+        arr[a] = arr[b];
+        arr[b] = temp;
+        return;
+    }
+}
+
+
+
+// BRUTE FORCE 
+//Approach: 
+//1. We start with an empty ds and a boolean array to keep track of elements taken into ds.
+//2. We start with choosing each element in our ds as first element. Keep marking map as true for first element picked.
+//3. Similarly, we choose for all possibilities for second element and add it to our ds.
+//3. We hit base case when ds.size() reaches n.
+// TC = O(n! x n)
+// SC = O(n) + O(n) -> for ds and boolean array, not counted stack space and ans space
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {      
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> ds = new ArrayList<>(); 
+        boolean[] freq = new boolean[nums.length]; //map
+        
+        helper(nums, ans, ds, freq);
+        return ans;
+    }
+    private void helper(int[] arr, List<List<Integer>> ans, List<Integer> ds, boolean[] freq){
+        // base case
+        if(ds.size() == arr.length){
+            ans.add(new ArrayList<>(ds));
+            return;
+        }
+        
+        for(int i= 0 ; i<arr.length ; i++){
+            if(freq[i] == false){
+                ds.add(arr[i]);
+                freq[i] = true;
+                helper(arr, ans, ds, freq);
+                ds.remove(ds.size()-1);
+                freq[i] = false;
+            }
+        }// for close        
+    }    
+}
