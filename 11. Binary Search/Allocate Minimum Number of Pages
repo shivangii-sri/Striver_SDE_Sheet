@@ -1,0 +1,44 @@
+// this solution not working on interview bit.
+
+public class Solution {
+    public int books(int[] A, int B) {
+        int low = A[0];
+        int high=0;
+        for(int e : A){           
+            high = Math.max(high , e);
+            low = Math.min(low , e);
+        }
+        int ans = -1;
+        while(low <= high){
+            int mid = low+high/2;
+
+            if(isPossibleSoln(A, mid , B) == true){
+                ans = mid;
+                high = mid-1;
+            }
+            else{
+                low = mid+1;
+            }
+        }
+        return ans;
+    }
+    
+    public static boolean isPossibleSoln(int[] arr , int barrier, int B){
+       int allocatedStu =0;
+       int pages = 0; //to be allocated to each student
+       
+       for(int i=0; i<arr.length ; i++){
+           if(arr[i] > barrier ) 
+            return false;
+            if(pages + arr[i] > barrier){
+                allocatedStu++ ;
+                pages = arr[i];
+                if(pages > barrier) return false;
+            }
+            else
+                pages += arr[i];
+       }
+    if(allocatedStu > B) return false;
+    else return true; 
+    }
+}
