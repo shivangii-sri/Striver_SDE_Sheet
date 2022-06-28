@@ -1,0 +1,35 @@
+//Approach :
+1. The search space will be 1 to M , M=given number whose root we have to find
+2. Take low and high as 1 and M respectively.
+3. Since we are searching a double value, so trim down the search space until the diff of high-low is more than 10^(-6) i.e 1e-6. The diff must not be lesser than 1e-6.
+4. Find mid. check if mid is nth root or not (so check if mid raised to power n gives m or not)  
+// TC = N x log((M*10)^d) , for M , there are 10 decimal values in between every two numbers. d= no of digits after decimal.
+// SC = O(1)
+
+
+public class Solution {
+    public static double findNthRootOfM(int n, long m) {
+    	// Write your code here.       
+        double low=1;
+        double high=m;
+        double eps=1e-9;        
+        while((high-low) > eps) {
+            double mid=(low+high)/2.0;            
+            if(multiply(mid,n) < (double)m){
+                low=mid;
+            }else{
+                high=mid;
+            }
+        }       
+        return low;
+    }
+    private static double multiply(double number,int n){        
+        double ans=1.0;       
+        for(int i=1;i<=n;i++){
+            ans=ans*number;
+        }      
+        return ans;
+    }
+}
+
+
