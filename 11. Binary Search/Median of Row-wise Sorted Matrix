@@ -1,0 +1,44 @@
+Approach :
+1. Search space defined as low=min, high=max value.
+2. While(lo<=hi), we find mid in search space. Then we COUNT how many numbers in the matrix are smaller than or equal to this mid value.
+3. Intuition - For the mid to be median, there must be total length/2 i.e (n*m)/2 values less than mid, so that mid is the median.
+4. So if count<= (n*m)/2 , we shrink low and search even
+5. Else if count> (n*m)/2 , we shrink high. Because we want a smaller mid value.
+6. Lastly we return LOW
+7. Note : To find the count , we use Binary search again in rows one by one.
+
+==> TC = O(10^9 x N x logM) , N= no. of rows, M= no of columns.
+==> SC = O(1)
+
+public class Solution {
+    public int findMedian(int[][] A) {
+    // Write code here
+        int lo = Integer.MIN_VALUE;
+        int hi = Integer.MAX_VALUE;
+        int n = A.length;
+        int m = A[0].length; 
+
+        while(lo <= hi){
+            int mid = (lo + hi)/2;
+            int cnt= 0;
+            for(int i = 0; i<n ; i++){
+                cnt += countLessThanEqualTo(A[i] , mid);
+            }
+            if(cnt <= (n*m)/2) lo = mid+1;
+            else hi = mid-1;
+        }
+        return lo;
+    }    
+    // a utility function to find count of elements
+    public static int  countLessThanEqualTo(int[] arr , int mid){
+        int l = 0;
+        int r = arr.length-1;
+        while(l <= r){
+            int md = (l + r)/2;
+
+            if(arr[md] <= mid) l = md+1;
+            else r = md-1;
+        }
+        return l;
+    }
+}
