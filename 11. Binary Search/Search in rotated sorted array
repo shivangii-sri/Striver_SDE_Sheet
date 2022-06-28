@@ -1,0 +1,89 @@
+// Question - To return the index of target element to be searched in rotated sorted array.
+//Approach :Striver code- without using pivot index:-
+1. Take low=0, high = n-1.
+2. Start BS i.e run while(lo<=hi) -> Find mid.
+3. Check 3 conditions:-
+  a. if a[mid] == target , return mid
+  b. check if left half is sorted, if yes
+      ->then check if target lies in left half, move to left half as hi = mid-1;
+      ->if not, then move to right half bina kuch soche as lo = mid+1
+  c. if condition is false, iska matlab right half sorted hai.
+      ->check if target target lies in right half, move to right half as lo = mid+1
+      ->nahi toh chupchaap move to lef half as hi=mid-1;
+4. agar while loop ends, and nothing returned, iska matlab element not found. toh after while, return -1.
+// ==> TC = O(logN)
+// ==> SC = O(1)
+      
+class Solution {
+    public int search(int[] nums, int target) {
+       // Striver Code - without using pivot index     
+        int lo= 0;
+        int hi = nums.length-1;        
+        while(lo<=hi){
+            int mid = lo+(hi-lo)/2;
+            
+            if(nums[mid] == target) return mid;           
+            
+            // is left half sorted?
+            if(nums[lo] <= nums[mid]){
+                // does target lie in left half?
+                if(target>=nums[lo] && target < nums[mid]) 
+                    hi = mid-1;   
+                //if not, move to right half
+                else 
+                    lo = mid+1;
+            }
+            //else meaning right half is sorted
+            else{
+                // does target lies in right half?
+                if(target > nums[mid] && target <= nums[hi]) 
+                    lo = mid+1;
+                // if not, move to left half
+                else 
+                    hi = mid-1;
+            }            
+        }
+        return -1;
+    }
+}
+
+
+
+// Approach 2 - Using pivot index.
+class Solution {
+    public int search(int[] nums, int target) {
+      int pivotIdx = findPivotIdx(nums);
+        System.out.println(pivotIdx);
+        if(target >= nums[pivotIdx] && target<= nums[nums.length-1]) {
+            return BS(nums, pivotIdx, nums.length-1 , target);
+        }
+        else{
+            return BS(nums, 0, pivotIdx-1 , target);
+        }
+    }
+    // find pivot idx using binary search
+    public static int findPivotIdx(int[] nums){
+        int s = 0;
+        int e = nums.length-1;
+        
+        while(s<e){
+            int mid = s + (e-s)/2;
+            
+            if(nums[mid] >= nums[0]) s = mid+1;
+            else e=mid;
+        }
+        return s;
+    }
+    // Binary Search
+    public static int BS(int[] arr, int s, int e, int target){
+        while(s<=e){
+            int mid = s + (e-s)/2;
+            
+            if(arr[mid] == target) return mid;
+            else if(arr[mid] < target) s = mid+1;
+            else e = mid-1;
+                
+        }
+        return -1;
+    }
+}
