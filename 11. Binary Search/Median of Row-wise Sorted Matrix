@@ -2,9 +2,9 @@ Approach :
 1. Search space defined as low=min, high=max value.
 2. While(lo<=hi), we find mid in search space. Then we COUNT how many numbers in the matrix are smaller than or equal to this mid value.
 3. Intuition - For the mid to be median, there must be total length/2 i.e (n*m)/2 values less than mid, so that mid is the median.
-4. So if count<= (n*m)/2 , we shrink low and search even
+4. So if count<= (n*m)/2 , we shrink low and search even more accurate mid value.
 5. Else if count> (n*m)/2 , we shrink high. Because we want a smaller mid value.
-6. Lastly we return LOW
+6. Lastly we return Low
 7. Note : To find the count , we use Binary search again in rows one by one.
 
 ==> TC = O(10^9 x N x logM) , N= no. of rows, M= no of columns.
