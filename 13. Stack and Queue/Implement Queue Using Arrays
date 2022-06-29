@@ -1,4 +1,40 @@
-//Initialize an array to implement Queue(FIFO) using array
+//Queue me intialize front and back with 0 index , not -1.
+
+public class Queue {
+    int[] arr;
+    int front;
+    int back;    
+    Queue() {
+        // Implement the Constructor
+        front = 0;
+        back = 0;
+        arr = new int[5001];
+    }
+    boolean isEmpty() {
+        // Implement the isEmpty() function
+        return (front == back);
+    }
+    void enqueue(int data) {
+        // Implement the enqueue() function //
+        arr[back++] = data;      
+    }
+    int dequeue() {
+        // Implement the dequeue() function
+        if(front == back) return -1;
+        int res = arr[front];
+        front++;
+        return res;      
+    }
+    int front() {
+        // Implement the front() function //if not return -1
+         if(front == back) return -1;
+        return arr[front];       
+    }
+}
+
+
+
+//Striver Code  - Initialize an array to implement Queue(FIFO) using array
 ==> Time Complexity:
 pop function: O(1)
 push function: O(1)
