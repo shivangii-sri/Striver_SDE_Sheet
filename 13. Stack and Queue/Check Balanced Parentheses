@@ -1,0 +1,36 @@
+//Using stack to check valid parentheses
+//Approach:
+1. Traverse linearly through the array.
+2. If its an opening bracket, push it into stack.
+3. If its a closing bracket :-
+  -check if stack is empty, return false, bcz not balanced.
+  -else check if top opening bracket of stack is matching with current closing bracket. if yes, pop the top of stack.
+  - if not matching, return false
+4. If for loop ends, return true if stack is empty.
+//TC = O(N) , SC=O(N) for stack
+
+class Solution {
+    public boolean isValid(String s) {
+        Stack<Character> st = new Stack<Character>();
+        
+        for(int i=0; i<s.length() ; i++){
+            char ch = s.charAt(i);
+            if(ch == '(' || ch == '[' || ch == '{'){ //opening bracket push it into stack
+                st.push(ch);
+            }
+            else{
+                if(st.isEmpty() == true) return false; //stack is empty and we have a closing bracket
+                if(isMatch(st.peek(), ch) == true) st.pop();
+                else return false;
+            }
+        }
+        return st.isEmpty();
+    }
+    
+    public static boolean isMatch(char a, char b){
+        if(  (a=='(' && b==')') || (a=='[' && b==']') || (a=='{' && b=='}') ){
+            return true;
+        }
+        else return false;
+    }
+}
