@@ -1,3 +1,35 @@
+// Our Code - link: https://workat.tech/problem-solving/practice/implement-stack-array
+class Stack {
+	int[] arr;
+	int ptr;	
+	public Stack (int capacity) {
+		arr = new int[capacity];
+		ptr = -1;
+	}
+	public boolean isEmpty() {
+		return  ptr == -1;
+	}	
+	public int size() {
+		return ptr+1;
+	}	
+	public int top() {
+		if(ptr == -1) return -1;
+		return arr[ptr];
+	}	
+	public void push(int element) {
+		if(ptr == arr.length ) return;
+		ptr++;
+		arr[ptr] = element;		
+	}
+	
+	public void pop() {
+		if(ptr == -1) return;
+		ptr--;
+	}
+}
+
+
+// ******************** Striver Code ***************************
 class stack {
     int size = 10000;
     //Initialize an array to implement stack using arrays.
