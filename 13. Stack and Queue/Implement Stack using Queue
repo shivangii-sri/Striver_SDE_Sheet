@@ -1,0 +1,62 @@
+// Using 2 queues;
+
+class MyStack {
+    Queue<Integer> q1 ;
+    Queue<Integer> q2 ;
+    
+    public MyStack() {
+        q1 = new LinkedList<Integer>();
+        q2 = new LinkedList<Integer>();
+    }
+    
+    public void push(int x) {
+        q1.add(x);//O(1)
+    }
+    
+    public int pop() {
+        int size = q1.size();
+        int i=0;
+        while( i < size-1 ){
+            q2.add(q1.poll());
+            i++;
+        }
+        int res  = q1.poll();
+        while(!q2.isEmpty()){
+            q1.add(q2.poll());
+        }
+        return res;
+    }
+    
+    public int top() {
+        // NOTE : Always store size in a seperate variable when using in loop, because size is decreasing in the loop as we are doing q.poll(); 
+        int size = q1.size() ;
+        if(q1.size() == 0) return -1;
+        int i=0;
+        int res=0;
+        System.out.println(q1.size());
+        
+        while( i < size){
+            res = q1.poll();
+            System.out.println(" res = " + res +" i = " + i);
+            q2.add(res);
+            i++;
+        }
+
+        while(!q2.isEmpty()){
+            q1.add(q2.poll());
+        }
+        return res;
+    }
+    
+    public boolean empty() {
+        return q1.size() == 0;
+    }
+}
+/**
+ * Your MyStack object will be instantiated and called as such:
+ * MyStack obj = new MyStack();
+ * obj.push(x);
+ * int param_2 = obj.pop();
+ * int param_3 = obj.top();
+ * boolean param_4 = obj.empty();
+ */
