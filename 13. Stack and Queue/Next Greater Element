@@ -1,0 +1,36 @@
+// Ques: print the next greater element on the right side for each element in an array
+    Sample Input arr[]= [1,2,4,3] ==> Output nge[] = [2,4,-1,-1]
+//Approach:
+1. Traverse the array from back.
+2. We need to find the next greater element. So while stack is not empty and top of stack is smaller or equal to current element, pop out top.
+3. Now its time to add next greater element into our answer.
+    a. if stack becomes empty, means no greater element found, put -1 into answer
+    b. if stack is not empty, then push top element into answer because it will be next greater.
+ 4. After assigning asnwer into nge[] , Push current element into stack.
+
+==> TC = O(N + N) for array and stack traversing
+==> SC = O(N) for stack
+
+public class Solution {	
+	public static int[] nextGreater(int[] arr, int n) {	
+		    Stack<Integer> st = new Stack<Integer>();
+        int nge[] = new int[n];
+        
+        //start traversing from the back
+        for(int i=n-1; i>=0  ; i--){
+            //pop out all the elements in the stack which are <= curr eleemnt.
+            while(!st.isEmpty() && st.peek() <= arr[i]){
+                st.pop();
+            }
+            //if stack becomes empty, no greater element, put -1.
+            if(st.isEmpty()== true) nge[i] = -1;
+            //if not empty, greater element exist at top of stack.
+            else nge[i] = st.peek();
+            //after assigning asnwer into nge[] , 
+            // do not forget to push current element into stack
+            st.push(arr[i]);
+        }
+        return nge;
+	}
+
+}
