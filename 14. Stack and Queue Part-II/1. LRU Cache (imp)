@@ -1,0 +1,87 @@
+//Approach:
+To implement LRU Cache, we create:-
+  1. HashMap-> to store (key, node addres). It also help us to know the current size of LRU cache.
+  2. Node class having key, value, prev and next pointers. This is our LRU Cache data structure.
+  3. capacity is an Instance variable. 
+
+Get(key) :-
+  1. if map doent contain key, return -1
+  2. else if map contains key: ->remove node from map  ->insert node (in LRU Cache and Map)  ->return key ka value.
+  
+Put(key, value) :-
+  1. if map is containing, remove this key
+  2. check if size of map is equal to capapcity, remove node.
+  3. insert (into LRU and Map because it becomes most recently used.)
+  
+  
+
+class LRUCache {
+    int capacity;
+    Map<Integer , Node> mp = new HashMap<>();
+    Node head = new Node(0,0);
+    Node tail = new Node(0,0);    
+    
+    class Node{
+        int key;
+        int value;
+        Node prev;
+        Node next;
+        
+        public Node(int _key , int _value){
+            key = _key;
+            value = _value;
+        }
+    }
+    
+    
+    public LRUCache(int capacity) {
+        this.capacity  = capacity;
+        head.next = tail;
+        tail.prev = head;
+    }
+    
+    public int get(int key) {
+        if(mp.containsKey(key)){
+            Node node = mp.get(key);
+            remove(node);
+            insert(node);            
+            return node.value;
+        }
+        else return -1;
+    }
+    
+    public void put(int key, int value) {
+        //check in map
+        if(mp.containsKey(key)){
+            remove(mp.get(key));
+        }
+        //check for size
+        if(mp.size() == capacity){
+            remove(tail.prev);
+        }
+        insert(new Node(key , value));       
+    }
+    public void insert(Node node){ //Adds into LRUcache and map also.
+        Node headNext = head.next; //storing head ka current next  node
+        head.next = node;
+        node.prev = head;
+        
+        node.next = headNext;
+        headNext.prev = node;
+        
+        mp.put(node.key , node);
+    }
+    public void remove(Node node){ //remove function also takes care to remove from map.
+        mp.remove(node.key);
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+}
+
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
