@@ -1,11 +1,10 @@
 //Approach:
 1. set base cases: when n==1 and nee2
 2. to find nth string, traverse from i=3 upto n.
-3. From string s, we will build string temp. and then everytime, 
-  a. s = temp for the next iteartion. 
-  b. Initialize s= "11", 
-  c. temp="" 
-  d. set delimiter in s to make sure we include last char in temp..
+3. From string s, we will build string temp. and then everytime, s = temp for the next iteartion. 
+  a. Initialize s= "11", 
+  b. temp="" 
+  c. set delimiter in s to make sure we include last char in temp..
 4. for every ith iteration, we iterate in string s :
   a. if char is same as prev char in s, cnt++
   b. if not, store the count and then char in temp. set cnt = 1
