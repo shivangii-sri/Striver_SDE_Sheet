@@ -1,0 +1,73 @@
+//Question : Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+//An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+//Method 1 - O(1) Space
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if(s.length() != t.length()) return false;        
+        int[] alphabet = new int[26];
+        for (int i = 0; i < s.length(); i++) alphabet[s.charAt(i) - 'a']++;
+        for (int i = 0; i < t.length(); i++) alphabet[t.charAt(i) - 'a']--;
+        for (int i : alphabet) if (i != 0) return false;
+        return true;
+    }
+}
+
+
+// Method 2 -Using Maps
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if(s.length() != t.length()) return false;
+        Map<Character , Integer> mp = new HashMap<>(); //to store (charachter->frequency) pair            
+        for(int i=0; i< s.length() ; i++) {
+            char ch  = s.charAt(i);
+            if(mp.containsKey(s.charAt(i))){
+                mp.put(ch , mp.get(ch)+1);
+            }
+            else{
+                mp.put(ch , 1);
+            }
+        }        
+        for(int i=0; i< t.length(); i++ ){
+            char ch = t.charAt(i);
+            if(mp.containsKey(ch) && mp.get(ch)>0){
+                mp.put(ch , mp.get(ch) - 1);
+            }
+            else
+                return false;
+        }
+        return true;        
+    }
+}
+
+//Method 3
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if(s.length()!= t.length()) return false;
+        
+        char[] s1 = s.toCharArray();
+        char[] t1 = t.toCharArray();
+        Arrays.sort(s1);
+        Arrays.sort(t1);
+        return Arrays.equals(s1, t1);
+    }
+}
+
+
+//Method 4
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        
+        char[] arr=t.toCharArray();
+        Arrays.sort(arr);
+
+        char[] arr2=s.toCharArray();
+        Arrays.sort(arr2);
+
+        String x=String.valueOf(arr);
+        String y=String.valueOf(arr2);
+
+        if(y.equals(x)) return true;       
+        return false;
+    }
+}
