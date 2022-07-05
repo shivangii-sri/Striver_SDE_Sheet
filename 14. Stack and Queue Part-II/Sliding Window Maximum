@@ -1,0 +1,16 @@
+// BRUTE force - TC=O(n * k) , SC=O(1)
+
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int res[] = new int[nums.length-k+1];
+         
+        for(int i=0; i<= nums.length-k ; i++){
+            int maxi = nums[i];
+            for(int j=i; j <= i+k-1 ; j++){
+                maxi = Math.max(maxi , nums[j]);
+            }
+            res[i] = maxi ; 
+        }
+        return res;
+    }
+}
