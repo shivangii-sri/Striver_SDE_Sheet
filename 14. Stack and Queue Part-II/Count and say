@@ -1,0 +1,36 @@
+//Approach:
+1. set base cases: when n==1 and nee2
+2. to find nth string, traverse from i=3 upto n.
+3. From string s, we will build string temp. and then everytime, s = temp for the next iteartion. Initialize s= "11", temp="", set delimiter in s.
+4. for every ith iteration, we iterate in string s :
+  a. if char is same as prev char in s, cnt++
+  b. if not, store the count and then char in temp. set cnt = 1
+  c. after a for loop for this string ends, make sure s = temp. so that we build our next temp.
+5. after n iterations, return s. 
+
+class Solution {
+    public String countAndSay(int n) {
+        if(n==1) return "1";
+        if(n==2) return "11";
+        
+        String s = "11";
+        for(int i=3; i<=n ; i++){
+            String temp =""; //we will build this string from previous string s
+            s += '&'; //why do we need a delimiter ??
+            int cnt = 1;
+            for(int j=1; j<s.length() ; j++){
+                if(s.charAt(j) != s.charAt(j-1)){
+                    temp += String.valueOf(cnt);
+                    temp += s.charAt(j-1);
+                    cnt= 1;
+                }
+                else{
+                    cnt++;
+                }
+            }
+            s = temp;
+            
+        }
+        return s;
+    }
+}
