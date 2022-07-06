@@ -1,0 +1,50 @@
+// Most Optimal - Modify height of BT Code- 
+// TC=O(N)  , SC=O(N)-aux stack space
+// Approach : 
+1. While calculating the height of BT, we have to calculate left height and right height for every node, correct.
+2. So for every node, we compute our diameter as max(diameter , lh+rh). While still returning the height of BT.
+3. For computing diameter, pass diameter as an arr, as variables are not passed by reference in java. 
+(Var are passed by value in java, so any changes to var in the called function are not reflected in the calling function).
+
+class Solution {     
+    public int diameterOfBinaryTree(TreeNode root) {
+        if(root == null) return 0;
+        int diameter[] = new int[] {0};
+        dfsHeight(root, diameter);
+        return diameter[0];
+    }
+    private int dfsHeight(TreeNode node, int[] maxi){
+        if(node == null) return 0;
+        
+        int lh = dfsHeight(node.left , maxi);
+        int rh = dfsHeight(node.right , maxi);
+        maxi[0] = Math.max(maxi[0] , lh+rh);
+        return 1 + Math.max(lh,rh);        
+    }    
+}
+
+
+// Java Naive Soln - TC = O(N^2)
+
+class Solution { 
+    int maxi = 0; //declare global variable 
+    
+    public int diameterOfBinaryTree(TreeNode root) {
+        if(root == null) return 0;
+        
+        int lh = findH(root.left);
+        int rh = findH(root.right);
+        maxi = Math.max(maxi , lh+rh);
+        
+        diameterOfBinaryTree(root.left);
+        diameterOfBinaryTree(root.right);
+        
+        return maxi;
+    }
+    private int findH(TreeNode node){
+        if(node == null) return 0;
+        int lh = findH(node.left);
+        int rh = findH(node.right);
+        return 1 + Math.max(lh,rh);
+    }   
+}
