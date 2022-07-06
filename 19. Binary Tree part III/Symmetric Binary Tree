@@ -1,0 +1,21 @@
+//Approach :
+1. Initially, we check if the root itself is null, we return true.
+2. Otherwise, we call helper symmetric funct. let us see its logic
+3. For base case: 
+  a. if either of the left or right nodes is null, we return if left==right
+  b. next check if the values of both left and right nodes are equal or not. If not, return false
+4. Otherwise, simultaneously go to left,right && right,left child nodes.
+  
+// TC = O(N) , SC = O(N)- aux stack space
+
+class Solution {
+    public boolean isSymmetric(TreeNode root) {       
+        return (root==null || find(root.left , root.right));
+    }
+    public static boolean find(TreeNode L, TreeNode R){
+        if(L==null || R==null) return L==R;
+        if(L.val != R.val) return false;      
+        
+        return (find(L.left , R.right) && find(L.right , R.left));
+    }
+}
