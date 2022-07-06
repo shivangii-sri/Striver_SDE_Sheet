@@ -1,0 +1,30 @@
+// TC= O(N)  , SC=O(N) -> for queue
+
+class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<List<Integer>>();
+        if(root == null) return ans;
+        Queue<TreeNode> q = new LinkedList<TreeNode>();
+        q.offer(root);
+        boolean flag = true;
+        
+        while(!q.isEmpty()){
+            int len = q.size();
+            List<Integer> level = new ArrayList<Integer>();
+            
+            for(int i=0; i<len ; i++){
+                if(q.peek().left != null) q.offer(q.peek().left);
+                if(q.peek().right != null) q.offer(q.peek().right);               
+                if(flag == true) {// Add in order- left to right
+                    level.add(q.poll().val);
+                }
+                else{ // add in reverse order - so adding each node at beggining
+                    level.add(0, q.poll().val);
+                }
+            }
+            flag = !flag;
+            ans.add(level);
+        }
+        return ans;
+    }
+}
