@@ -1,0 +1,30 @@
+// Java Brute force
+//Approach :
+1. if root is null, return null.
+2. Go to every node starting from root. Compute its two heights - left height and right height. If abs diff of Lh and Rh is > 1 for a given node, return false then and there.
+3. If not false, keep traversing to all other nodes. (call the same func for left and right). Store the left and right calsls in some boolean var.
+4. return true if both calls are true, else false;
+==> TC = O(N^2)
+==> SC = O(N) - aux stack space
+
+class Solution {
+    public boolean isBalanced(TreeNode root) {
+        if(root == null) return true;
+        
+        //find left height, and right height
+        int lh = findH(root.left);
+        int rh = findH(root.right);
+        if(Math.abs(lh-rh) > 1) return false;
+        
+        boolean left = isBalanced(root.left);
+        boolean right = isBalanced(root.right);
+        return (left&&right) ;
+        
+    }
+    private int findH(TreeNode node){
+        if(node == null) return 0;
+        int lh = findH(node.left);
+        int rh = findH(node.right);
+        return 1 + Math.max(lh,rh);
+    }
+}
