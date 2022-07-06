@@ -1,0 +1,18 @@
+class Solution {
+    public int maxPathSum(TreeNode root) {
+        int maxi[] = new int[] {Integer.MIN_VALUE};
+        helper(root,  maxi);
+        return maxi[0];
+    }
+    private int helper(TreeNode node , int[] maxi){
+        //base
+        if(node == null) return 0;
+        
+        //==>NOTE: for ls and rs, we take Max(0, sum) because if we get any negative sum , we dont want to carry it forward. Instead we will take 0.
+        int ls = Math.max(0 , helper(node.left , maxi) ); //ls = max left sum 
+        int rs = Math.max(0, helper(node.right,  maxi) ); //rs = max right sum
+        
+        maxi[0] = Math.max(maxi[0] , node.val + ls + rs);         
+        return node.val + Math.max(ls , rs);        
+    }
+}
