@@ -1,4 +1,5 @@
 // Most optimal - Modify height of BT code
+// Intuition : We return -1 if tree is not balanced , else we return the height of the balanced tree.
 // TC= O(N) , SC = O(N)- aux stack space, worst case O(N) for skew tree
 
 class Solution {
