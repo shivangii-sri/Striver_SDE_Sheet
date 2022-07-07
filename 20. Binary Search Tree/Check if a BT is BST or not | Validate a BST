@@ -1,0 +1,16 @@
+//Approach :
+1. We define a (min,max) range for every node which it must lie in order to follow BST (min < val < max)
+==> TC = O(N)  
+==> SC = O(1) -> apart from stack space, no extra space.
+
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        return helper(root , Long.MIN_VALUE , Long.MAX_VALUE); //due to constraints, we take long min and long max.
+    }
+    private boolean helper(TreeNode node , long min, long max ) {
+        if(node == null) return true;
+        if(node.val <= min || node.val >=max ) return false;
+        
+        return (helper(node.left , min, node.val) && helper(node.right, node.val, max));
+    }
+}
