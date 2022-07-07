@@ -1,8 +1,8 @@
 //Best Solution - Recursion - Preorder
 //Approach: Given next pointers are set to null initially.
 1. base case - if root is null, return null
-2. Check if root is not the last level, then proceed. If it is last level, return root.
-3. If not : make 2 checks for root.next pointer:
+2. Check if root is the last level or not. If it is last level, return root.
+3. If not the last level, : make 2 checks for root.next pointer:
     a. if root.next is null,     point root.right.next to null.
     b. if root.next is not null, point root.right.next to root.next.left.
     c. Lastly, after this if else, do point root.left.next = root.right;
