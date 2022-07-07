@@ -1,0 +1,44 @@
+//Optimal | TC = O(H) | SC = O(1) apart from stack space.
+
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null) return null;
+        
+        TreeNode cur = root;
+        if(cur.val < p.val && cur.val < q.val ) 
+            return lowestCommonAncestor(root.right, p, q);
+        else if(cur.val >p.val && cur.val >q.val)
+            return lowestCommonAncestor(root.left, p, q);
+        else
+            return cur;
+    }
+}
+
+
+// My self-written code | BRUTE Force | TC = O(N) |
+Approach : Applied the same logic as finding LCA in BT. 
+1. If we reach null, return null.
+2. If we find any node value matching with p or q, we return the node!
+While coming back -
+1. While coming back, If we do not find matching nodes both in left and right, return null.
+2. Or if from both sides, we are getting some value, i.e our LCA, so we return that current node.
+3. Or if any one side returns null while other side returns some value - it means either we have p or q - we return the value, and not the null.
+ 
+
+class Solution { 
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null) return null;
+        
+        if(root.val == p.val || root.val == q.val) return root;
+        
+        TreeNode L = lowestCommonAncestor(root.left , p, q);
+        TreeNode R = lowestCommonAncestor(root.right , p, q);
+        
+        if(L==null && R == null) return null;
+        else if(L != null && R != null) return root; // put this check before the below two checks.
+        else if(L != null ) return L;
+        else //if(R != null)
+            return R;
+                
+    }
+}
