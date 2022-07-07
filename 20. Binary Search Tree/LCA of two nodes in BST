@@ -1,9 +1,24 @@
+// Optimal Approach | SC = O(1) | TC = O(Height) | While loop code doesnt take extrarecursive stack space |
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        TreeNode cur = root;
+        while(cur!=null) {
+            if(cur.val > p.val && cur.val > q.val)
+                cur = cur.left;
+            else if(cur.val < p.val && cur.val < q.val)
+                cur = cur.right;
+            else 
+                return cur;            
+        }
+        return cur;        
+    }
+}
+
 //Optimal | TC = O(H) | SC = O(1) apart from stack space.
 
 class Solution {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        if(root == null) return null;
-        
+        if(root == null) return null;        
         TreeNode cur = root;
         if(cur.val < p.val && cur.val < q.val ) 
             return lowestCommonAncestor(root.right, p, q);
@@ -38,7 +53,6 @@ class Solution {
         else if(L != null && R != null) return root; // put this check before the below two checks.
         else if(L != null ) return L;
         else //if(R != null)
-            return R;
-                
+            return R;                
     }
 }
