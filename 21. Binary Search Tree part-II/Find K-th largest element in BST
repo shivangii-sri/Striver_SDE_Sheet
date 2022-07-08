@@ -1,0 +1,54 @@
+// My Code - on Code studio
+Approach:
+1. To return kth largest, Traverse in the BST as -> (Right Root Left). -> gives you desc order in BST.
+2. At every node you reach, increase count. When count reaches k, store the answer and return.
+
+public class Solution {
+// Note : decaring global variales doen't work on code studio because they have multiple test cases. So you need to pass on cnt, res as parameters.
+//     int cnt = 0;
+//     int res = -1;
+	public static int KthLargestNumber(TreeNode<Integer> root, int k) {
+		// Write your code here.
+        int res[] = new int[] {0, -1}; //res[0] = cnt. res[1] = res
+        helper(root , k , res);
+        return res[1];
+	}
+    private static void helper(TreeNode<Integer> root, int k, int[] res){
+        if(root == null) return;
+        helper(root.right , k , res);
+        res[0]++;
+        if(res[0] == k) {
+            res[1] = root.data;
+            return ;
+        }
+        helper(root.left , k, res);
+    }
+}
+
+
+//Sud code
+class Solution
+{
+    public int kthLargest(Node root,int k)
+    {
+        Node large=solUtil(root,new int[]{k});        
+        return large.data;
+    }    
+    public Node solUtil(Node root,int k[]){
+        
+        if(root==null)
+        return null;
+        
+        Node right=solUtil(root.right,k);
+        
+        if(right!=null)
+        return right;
+        
+        k[0]--;
+        
+        if(k[0]==0)
+        return root;
+        
+        return solUtil(root.left,k);
+    }
+} 
