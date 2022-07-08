@@ -1,0 +1,78 @@
+
+
+// self made class for TrieNode - array and flag variable
+class Node{
+    Node links[] = new Node[26];
+    boolean flag = false;
+    
+    public Node(){
+        
+    }
+    boolean containsKey(char ch){
+        return links[ch - 'a'] != null ;
+    }
+    void put(char ch , Node node){
+        links[ch - 'a'] = node;
+    }
+    Node get(char ch){
+        /// returnat which Trie node is this char in the current node pointing to 
+        return links[ch - 'a']; 
+    }
+    void setEnd(){
+        flag = true;
+    }
+    boolean isEnd() {
+        return flag; 
+    }
+}  
+class Trie {
+    private static Node root;
+
+    public Trie() {
+        root = new Node();
+    }
+    
+    public void insert(String word) {
+        Node node = root;
+        
+        for(int i=0; i<word.length() ; i++){
+            
+            if(node.containsKey(word.charAt(i)) == false) {
+                node.put(word.charAt(i) , new Node());
+            }
+            //move to the reference trie
+            node = node.get(word.charAt(i));
+        }
+        // set flag true in the last reference node, because we inserted the entire word
+        node.setEnd();
+    }
+    
+    public boolean search(String word) {
+        //start at root Node
+        Node node = root;
+        
+        for(int i=0; i<word.length() ; i++){
+            // if root does not contains the char , it means the word doen't exist , return false
+            if(node.containsKey(word.charAt(i)) == false){
+                return false;
+            }
+            node = node.get(word.charAt(i));
+            
+        }
+        return node.isEnd();
+    }
+    
+    public boolean startsWith(String prefix) {
+        //start at root Node
+        Node node = root;
+       // if root does not contains the char , it means the prefix doen't exist , return false 
+        for(int i=0; i<prefix.length() ; i++){
+            if(node.containsKey(prefix.charAt(i)) == false){
+                return false;
+            }
+            //else 
+            node = node.get(prefix.charAt(i));
+        }
+        return true;
+    }
+}
