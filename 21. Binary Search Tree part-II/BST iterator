@@ -1,0 +1,33 @@
+//Approach : 
+1. Create a stack.
+2. push the root and all its left left nodes into stack starting from parent to child.
+3. next() - return the top of stack, because its the first element of inorder.
+4. Make sure while you pop in stack, if it has a right node, push right and all its left left nodes into stack.
+
+SC = O(Height) - for stack stores only left left left.
+TC = O(1)
+
+class BSTIterator {
+     Stack<TreeNode> st = new Stack<TreeNode>();
+    
+    public BSTIterator(TreeNode root) {
+        pushAll(root);
+    }
+    
+    public int next() {
+        // assume next call will always be valid as per question
+        TreeNode node = st.pop();
+        pushAll(node.right);
+        return node.val;
+    }
+    
+    public boolean hasNext() {
+        return !st.isEmpty();
+    }
+    private void pushAll(TreeNode root){
+        while(root != null){
+            st.push(root);
+            root = root.left;
+        }
+    }
+}
