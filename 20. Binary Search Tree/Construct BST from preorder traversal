@@ -1,0 +1,30 @@
+// Most Optimal | TC = O(N) | SC = O(1) | 
+//Approach :
+1. Traverse in preorder[] carrying upperbound for each node you create. 
+2. Call left with upbound as node.val
+3. Call right with upbound same as that of parent upbound.
+
+class Solution {
+    public TreeNode bstFromPreorder(int[] preorder) {
+        //carrying upper bound
+        int i[] = new int[] {0};
+        TreeNode root = helper(preorder , i , Integer.MAX_VALUE);
+        return root;
+    }
+              
+    private TreeNode helper(int[] preorder , int[] i, int upbound){
+        //base case- if i crosses last element in preorder rray OR cur element doesnt lie within bound, return null
+        if(i[0] == preorder.length || preorder[i[0]] > upbound ) return null;
+        
+        TreeNode node = new TreeNode(preorder[i[0]]);
+        i[0]++;
+        node.left  = helper(preorder, i, node.val); //calling left has upper bound as node.val
+        node.right = helper(preorder, i, upbound); // calling right has upper bound same its parent node.
+        return node;
+    }
+}
+
+
+// Brute force | TC=O(N * N) | SC = O(1)
+Approach:
+1. Traverse this preorder, insert each node one by one.
