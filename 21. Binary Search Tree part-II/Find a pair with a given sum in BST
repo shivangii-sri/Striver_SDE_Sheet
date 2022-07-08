@@ -1,0 +1,59 @@
+//Approach : Using BST Iterator
+1. We create a class of BST iterator. Create a boolean variable reverse. 
+  a. Reverse=false ==> next element
+  b. Reverse=true  ==> before element
+2. We make 2 objects of this class. one to give next from beginning, one to give before element from last. 
+3. say i and j stores whatever is returned by next() and before() resepctively.
+4. we apply two-sum 
+  while(i<j) -> put 3 conditions.
+  
+==>TC = O(N) | SC=O(2Height) - for two BST iterators will use two stacks
+
+class BSTiterator{
+    private Stack<TreeNode> stack = new Stack<TreeNode>();
+    boolean reverse  =true;
+    
+    public BSTiterator(TreeNode root , boolean reverse){
+        this.reverse = reverse;
+        pushAll(root);
+    }
+    
+    private void pushAll(TreeNode node){
+        while(node != null){
+            stack.push(node);
+            if(reverse == true) {
+                node = node.right;
+            }
+            else{
+                node = node.left;
+            }
+        }
+    }
+    public boolean hasNext(){
+        return !stack.isEmpty();
+    }
+    public int next(){
+        TreeNode temp = stack.pop();
+        if(reverse == false) pushAll(temp.right);
+        else pushAll(temp.left);
+        return temp.val;
+    }
+}
+class Solution {
+    public boolean findTarget(TreeNode root, int k) {
+        if(root == null) return false;
+        
+        BSTiterator l = new BSTiterator(root , false);
+        BSTiterator r = new BSTiterator(root , true); 
+        
+        int i = l.next();
+        int j = r.next();
+        
+        while(i<j){
+            if(i+j == k) return true;
+            else if(i+j < k) i = l.next();
+            else j = r.next();
+        }
+        return false;
+    }
+}
