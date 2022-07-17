@@ -103,3 +103,25 @@ public class Solution {
         return prev[0];
 	}
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#5 : Using Combinations | MOST OPTIMAL | TC= O(Math.min(row-1, col-1)) | SC = O(1)
+
+Approach :
+1. Find total no. of moves = right moves + down moves = col-1 + row-1 = m+n-2
+2. Take combination of Total moves with either right or down moves i.e (m+n-2)C(m-1) or (m+n-2)C(n-1)
+
+class Solution {    
+    public int uniquePaths(int m, int n) {
+        
+        int N = m + n - 2;  //Total no of moves        
+        int r = Math.min(m , n) - 1; //take combination of either row-1 or col-1
+        
+        double res = 1;
+        for(int i=1; i<= r ; i++){
+            res = res * ( N - r + i )/ i; //dry run for 10 C 3 => value of numerator is 8, 9, 10 in the three iterations
+        }       
+        return (int)res;
+    }
+}
