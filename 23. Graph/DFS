@@ -28,3 +28,45 @@ public static ArrayList<Integer> dfsOfGraph(int V, ArrayList<ArrayList<Integer>>
         }
     }
  }
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+----------------Dad Code -----------
+
+class Solution {
+    ArrayList<Integer> dfs(ArrayList<Integer>[] adjList) {
+     
+    int noOfVertices=adjList.length;
+    
+    boolean[] visited=new boolean[noOfVertices];
+    
+    ArrayList<Integer> result=new ArrayList<Integer>();
+    
+    solUtil(0,adjList,result,visited); //NOTE : Start traversing from 0th index of Adjacency List
+    
+    return result;
+    
+    }
+  
+  
+  public void solUtil(int index,ArrayList<Integer>[] adjList,ArrayList<Integer> result,boolean[] visited){
+       
+    visited[index]=true;
+    
+    result.add(index);
+    
+    int edgeLen=adjList[index].size();
+    
+    for(int i=0;i<edgeLen;i++){
+      
+      int node=adjList[index].get(i);
+      
+      if(!visited[node]){
+        
+        solUtil(node,adjList,result,visited);
+      }
+    }
+  }
+}
