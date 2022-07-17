@@ -28,3 +28,44 @@ class Solution {
         return true;        
     }
 }
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Work@Tech Link BFS : https://workat.tech/problem-solving/practice/bfs-of-graph
+
+class Solution {
+    ArrayList<Integer> bfs(ArrayList<Integer>[] adjList) {
+    
+    int noOfvertices=adjList.length;
+    
+    boolean[] visited=new boolean[noOfvertices];
+    
+    ArrayList<Integer> result=new ArrayList<>();
+
+    
+    Queue<Integer> temp=new LinkedList<>();
+    
+    visited[0]=true;
+    
+    temp.add(0);
+   
+    while(!temp.isEmpty()){
+      
+      int index=temp.poll();
+      result.add(index);
+      
+      int edges=adjList[index].size();
+      
+      for(int i=0;i<edges;i++){
+        
+        int node=adjList[index].get(i);
+        
+        if(!visited[node]){
+          visited[node]=true;
+          temp.add(node);
+        }
+      }
+    }
+    return result;   
+    }
+}
