@@ -1,0 +1,105 @@
+Leetcode Link : https://leetcode.com/problems/unique-paths/
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#1 Recursion | TC = O(2^ (MxN)) | SC= O(length of path) = O(m-1 + n-1) -> stack space will go length of path deeper 
+
+
+public class Solution {
+	public static int uniquePaths(int m, int n) {
+        //Write your code here
+        return countPaths(0, 0 , m, n);
+	}
+  private static int countPaths(int i, int j, int m, int n){
+        //base case
+        if(i==m-1 && j==n-1) return 1; //when reaching destination
+        if(i >= m || j >= n) return 0; //when going out of bound
+         
+        int right = countPaths(i , j+1 , m, n);
+        int left = countPaths(i+1 , j , m, n);
+        return right + left;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#2. Memoization | TC = O(M x N) = No. of states | SC= O(m-1 + n-1) + O(M x N) -> path length in stack space + dp[][] space
+
+
+public class Solution {
+    public static int uniquePaths(int m, int n) {
+        int dp[][] = new int[m][n];
+        for(int[] x : dp){
+            Arrays.fill(x, -1);
+        }
+        return helper(0, 0 , m, n , dp);
+    }
+    private static int helper(int i, int j, int m, int n , int[][] dp){
+        if(i==m-1 && j==n-1) return 1; //when reaching destination
+        if(i >= m || j>= n) return 0; //when going out of bound
+        if(dp[i][j] != -1) return dp[i][j];
+        
+        int right = helper(i , j+1 , m, n, dp);
+        int down = helper(i+1 , j , m, n, dp);
+        return dp[i][j] = right + down;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#3. Tabulation | TC = O(MxN)) to compute these states | SC= O(M x N) dp[][] space 
+==> In this tabulation go from top down bcz I did Memo from bottom-up.
+==> All test cases passed!
+
+public class Solution {   
+    public static int uniquePaths(int m, int n) {
+        int dp[][] = new int[m][n];     
+    	
+	for(int i=m-1 ; i>=0 ; i--){
+            for(int j=n-1; j>=0; j--){
+                
+		if(i==m-1 && j==n-1) {
+                    dp[i][j] = 1; //Initialize base case here.               
+                }       
+		
+                else{
+                    int right=0;
+                    int down =0;
+                    if(j < n-1) right = dp[i][j+1];   
+                    if(i < m-1) down  = dp[i+1][j];                    
+                    dp[i][j] = right + down;                    
+                }
+
+            }
+        }       
+        return dp[0][0];
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#4. Space Optimization | TC = O(N * 4) * 3 => there are 3 nested loops | SC = O(N)-> space of prev[] of size N 
+==> All test cases passed!
+
+public class Solution {
+	public static int uniquePaths(int m, int n) {
+        int prev[] = new int[n];     
+        
+        for(int i=m-1 ; i>=0 ; i--){
+            int cur[] = new int[n];
+            for(int j=n-1; j>=0; j--){
+                if(i==m-1 && j==n-1) {
+                    cur[j] = 1;                
+                }                
+                else{
+                    int right=0;
+                    int down =0;
+                    if(j < n-1) right = cur[j+1];   
+                    if(i < m-1) down  = prev[j];                    
+                    cur[j] = right + down;                    
+                }
+
+            }
+            prev = cur;
+        }       
+        return prev[0];
+	}
+}
