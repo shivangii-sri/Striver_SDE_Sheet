@@ -1,0 +1,27 @@
+import java.util.*;
+public class Solution {
+	public static void sortStack(Stack<Integer> stack) {
+		// Write your code here.
+        //base case
+        if(stack.isEmpty()) {
+               return;
+          }
+ 
+          int temp = stack.pop();
+          sortStack(stack);
+ 
+          insertAtCorrectPosition(stack, temp);          
+     }
+     public static void insertAtCorrectPosition(Stack<Integer> st, int temp) {  //helepr method
+ 
+          if(st.isEmpty() || st.peek() < temp) {
+                 st.push(temp);
+                 return;
+           }
+ 
+           int elem = st.pop();
+           insertAtCorrectPosition(st, temp);
+ 
+            st.push(elem);
+       }
+ }
