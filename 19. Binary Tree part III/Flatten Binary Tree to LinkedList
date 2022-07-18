@@ -1,0 +1,63 @@
+class Solution {
+  //  TreeNode prev = null;     
+    public void flatten(TreeNode root) {
+        //Recursive Approach 
+        //TC=O(N), SC = O(N)- recursice stack space 
+//         if(root == null ) return; 
+      
+//         flatten(root.right);
+//         flatten(root.left);
+
+//         root.right = prev;
+//         root.left= null;
+//         prev=root;
+        
+        
+        
+        
+        // Method2- Iterative Approach - Using Stack
+        // TC= O(N) , SC=O(N)
+        
+        Stack<TreeNode> st = new Stack<>();        
+        if(root == null) return;
+        st.add(root);
+        
+        while(!st.isEmpty()) {
+            TreeNode cur = st.pop();
+            
+            if(cur.right!=null) st.push(cur.right);
+            if(cur.left!=null) st.push(cur.left);
+            if(!st.isEmpty()) {
+                cur.right = st.peek(); 
+            }
+            cur.left = null;
+            
+        }
+        
+        
+        
+      //Best Soln- Morris Traversal 
+      // TC= O(N) , S.C=O(1)        
+      // Let Cur= Root, we point the righmost guy of left subtreee to the Cur->right
+        
+//         TreeNode cur = root;
+//         while(cur!=null) 
+//         {
+//             if(cur.left!=null) 
+//             {
+//                 TreeNode prev = cur.left;
+//                 while(prev.right!=null) {
+//                     prev = prev.right;
+//                 }
+//                 prev.right = cur.right;
+                
+//                 cur.right = cur.left;
+//                 cur.left=null;
+//             }
+//          cur = cur.right;                
+       
+//         }//while close              
+    
+        
+    }
+}
