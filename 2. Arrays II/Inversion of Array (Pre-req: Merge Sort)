@@ -1,0 +1,67 @@
+public class Solution {
+    // DO NOT MODIFY THE ARGUMENTS WITH "final" PREFIX. IT IS READ ONLY
+    public int[] repeatedNumber(final int[] arr) {
+        
+        int n = arr.length;
+        
+        int xor1;
+        int setBitNo;
+
+        int i;
+
+        int x  = 0;
+        int y = 0;
+
+        xor1 = arr[0];
+
+        for (i = 1; i < arr.length; i++) {
+            xor1 ^= arr[i];
+        }
+
+        for (i = 1; i <= n; i++) {
+            xor1 ^= i;
+        }
+
+        setBitNo = xor1 & ~(xor1 - 1);
+
+        for (i = 0; i < arr.length; i++) {
+            if ((arr[i] & setBitNo) != 0) {
+                x = x ^ arr[i];
+            } else {
+                y = y ^ arr[i];
+            }
+        }
+
+        for (i = 1; i <= n; i++) {
+            if ((i & setBitNo) != 0) {
+                x = x ^ i;
+            } else {
+                y = y ^ i;
+            }
+        }
+        
+        boolean xRepeat = false;
+        boolean yRepeat = false;
+        for (i = 0; i < arr.length; i++) {
+            if (arr[i] == x) {
+                xRepeat = true;
+                break;
+            } else if (arr[i] == y) {
+                yRepeat = true;
+            }
+        }
+        
+        int[] ans = new int[2];
+        if (xRepeat) {
+            ans[0] = x;
+            ans[1] = y;
+            return ans;
+        } else if (yRepeat) {
+            ans[0] = y;
+            ans[1] = x;
+            return ans;
+        }
+        
+        return ans;
+    }
+}
