@@ -1,8 +1,7 @@
 import java.util.*; 
-
 class Node 
 {
-	private int u;
+    private int u;
     private int v;
     private int weight;
     
@@ -13,10 +12,7 @@ class Node
     int getV() { return v; }
     int getU() { return u; }
     int getWeight() { return weight; }
-
-}
- 
-
+} 
 class Main
 {
     void bellmanFord(ArrayList<Node> edges, int N, int src)
@@ -67,5 +63,36 @@ class Main
 		Main obj = new Main(); 
 		obj.bellmanFord(adj, n, 0);
 		
+    }
+}
+
+
+-------------------------------- Dad Code -------------------------------------
+class Solution
+{
+    static int[] bellman_ford(int V, ArrayList<ArrayList<Integer>> adj, int S)
+    {
+        // Initialize distance of all vertices as infinite.
+        int []dis = new int[V];
+        for (int i = 0; i < V; i++)
+            dis[i] = 100000000;
+     
+        // initialize distance of source as 0
+        dis[S] = 0;
+     
+        // Relax all edges |V| - 1 times. A simple
+        // shortest path from src to any other
+        // vertex can have at-most |V| - 1 edges
+        for (int i = 0; i < V - 1; i++) 
+        {
+            for (int j = 0; j < adj.size(); j++) 
+            {
+                if (dis[adj.get(j).get(0)] != 100000000 && dis[adj.get(j).get(0)] + adj.get(j).get(2) <
+                                dis[adj.get(j).get(1)])
+                    dis[adj.get(j).get(1)] = 
+                    dis[adj.get(j).get(0)] + adj.get(j).get(2);
+            }
+        }
+        return dis;
     }
 }
